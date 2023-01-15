@@ -1,7 +1,17 @@
 [versions]
 
+androidGradlePlugin = "7.4.0"
+kotlin = "1.7.21"
+ksp = "1.7.21-1.0.8"
 serviceCompilerVersion = "1.0.0-alpha02"
 
 [libraries]
 
 sd-service-compiler = { module = "com.github.zj565061763:service-compiler", version.ref = "serviceCompilerVersion" }
+
+[plugins]
+
+android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
+android-library = { id = "com.android.library", version.ref = "androidGradlePlugin" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
