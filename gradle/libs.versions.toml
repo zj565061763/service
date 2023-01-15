@@ -3,7 +3,7 @@
 androidGradlePlugin = "7.4.0"
 kotlin = "1.7.21"
 ksp = "1.7.21-1.0.8"
-serviceCompiler = "8ff2866338"
+serviceCompiler = "1.0.0-alpha03"
 
 [libraries]
 
