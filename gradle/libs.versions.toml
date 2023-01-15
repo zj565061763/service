@@ -1,6 +1,6 @@
 [versions]
 
-androidGradlePlugin = "7.4.0"
+androidGradlePlugin = "7.3.1"
 kotlin = "1.7.21"
 ksp = "1.7.21-1.0.8"
 serviceCompiler = "1.0.0-alpha03"
