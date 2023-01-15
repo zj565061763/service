@@ -1,0 +1,7 @@
+[versions]
+
+serviceCompilerVersion = "1.0.0-alpha02"
+
+[libraries]
+
+sd-service-compiler = { module = "com.github.zj565061763:service-compiler", version.ref = "serviceCompilerVersion" }
