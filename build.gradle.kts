@@ -4,7 +4,3 @@ plugins {
     alias(libs.plugins.kotlin.android) apply false
     alias(libs.plugins.ksp) apply false
 }
-
-tasks.register<Delete>("clean") {
-    delete(rootProject.buildDir)
-}
