@@ -7,7 +7,7 @@ serviceCompiler = "1.0.0-alpha03"
 
 [libraries]
 
-sd-service-compiler = { group = "com.github.zj565061763", name = "service-compiler", version.ref = "serviceCompiler" }
+sd-serviceCompiler = { group = "com.github.zj565061763", name = "service-compiler", version.ref = "serviceCompiler" }
 
 [plugins]
 
