@@ -1,4 +1,4 @@
-package com.sd.demo.service.app_module_common
+package com.sd.demo.service.module_common
 
 import android.util.Log
 

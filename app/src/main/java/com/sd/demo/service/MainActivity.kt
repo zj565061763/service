@@ -3,7 +3,7 @@ package com.sd.demo.service
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import com.sd.demo.service.app_module_common.LoginService
+import com.sd.demo.service.module_common.LoginService
 import com.sd.lib.service.fService
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {

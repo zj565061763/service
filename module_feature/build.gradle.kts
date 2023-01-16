@@ -25,6 +25,6 @@ ksp {
 }
 
 dependencies {
-    implementation(project(":app_module_common"))
+    implementation(project(":module_common"))
     ksp(libs.sd.serviceCompiler)
 }
