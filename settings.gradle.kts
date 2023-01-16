@@ -18,6 +18,5 @@ dependencyResolutionManagement {
 rootProject.name = "service"
 include(":app")
 include(":lib")
-include(":app_module_a")
-include(":app_module_b")
+include(":module_feature")
 include(":app_module_common")
