@@ -3,9 +3,12 @@ package com.sd.lib.service
 private const val PackageRegister = "com.sd.lib.service.register"
 private const val Separator = "_"
 
-@Target(AnnotationTarget.PROPERTY)
-annotation class ServiceNameProperty(
-    val name: String,
+@Retention(AnnotationRetention.BINARY)
+@Target(AnnotationTarget.CLASS)
+annotation class ModuleServiceInfo(
+    val module: String,
+    val service: String,
+    val impl: String,
 )
 
 interface ServiceImplClassProvider {
