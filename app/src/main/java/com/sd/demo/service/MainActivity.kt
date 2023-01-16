@@ -16,10 +16,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         when (v.id) {
             R.id.btn -> {
                 fService<LoginService>().login()
-                fService<LoginService>("ModuleA1").login()
-                fService<LoginService>("ModuleA2").login()
-                fService<LoginService>("ModuleB1").login()
-                fService<LoginService>("ModuleB2").login()
+                fService<LoginService>("ModuleFeature1").login()
+                fService<LoginService>("ModuleFeature2").login()
             }
         }
     }
