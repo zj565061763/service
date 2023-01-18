@@ -14,6 +14,6 @@ annotation class FServiceImpl(
 /**
  * 创建[T]的实现类对象
  */
-inline fun <reified T> fService(name: String = ""): T {
+inline fun <reified T> fs(name: String = ""): T {
     return FServiceManager.get(T::class.java, name)
 }

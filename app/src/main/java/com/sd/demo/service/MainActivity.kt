@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.sd.demo.service.module_common.LoginService
-import com.sd.lib.service.fService
+import com.sd.lib.service.fs
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -15,9 +15,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     override fun onClick(v: View) {
         when (v.id) {
             R.id.btn -> {
-                fService<LoginService>().login()
-                fService<LoginService>("ModuleFeature1").login()
-                fService<LoginService>("ModuleFeature2").login()
+                fs<LoginService>().login()
+                fs<LoginService>("ModuleFeature1").login()
+                fs<LoginService>("ModuleFeature2").login()
             }
         }
     }
