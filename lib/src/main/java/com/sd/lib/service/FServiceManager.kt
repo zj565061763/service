@@ -55,6 +55,9 @@ object FServiceManager {
             Class.forName(serviceClassName)?.let {
                 require(it.isInterface) { "serviceClassName should be an interface" }
                 require(it.isAssignableFrom(implClass)) { "$serviceClassName is not assignable from $implClassName" }
+                requireNotNull(it.getAnnotation(FService::class.java)) {
+                    "Annotation ${FService::class.java.simpleName} was not found in $serviceClassName"
+                }
             }
             serviceClassName
         }
