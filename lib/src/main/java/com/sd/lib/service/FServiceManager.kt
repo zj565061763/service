@@ -20,9 +20,7 @@ object FServiceManager {
             if (holder == null) {
                 registerFromCompiler(serviceInterface)
                 holder = _mapInterfaceImpl[serviceInterface]
-                if (holder == null) {
-                    error("Implementation of $serviceInterface was not found")
-                }
+                checkNotNull(holder) { "Implementation of $serviceInterface was not found" }
             }
 
             val config = holder[name] ?: error("Implementation of $serviceInterface with name($name) was not found")
