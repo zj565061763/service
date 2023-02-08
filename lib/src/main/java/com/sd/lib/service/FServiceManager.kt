@@ -45,9 +45,7 @@ object FServiceManager {
         val implClass = Class.forName(implClassName).also {
             it.requireIsClass()
         }
-        val annotation = requireNotNull(implClass.getAnnotation(FServiceImpl::class.java)) {
-            "Annotation ${FServiceImpl::class.java.simpleName} was not found in $implClassName"
-        }
+        val annotation = implClass.requireAnnotation(FServiceImpl::class.java)
 
         val serviceInterface = if (serviceClassName.isEmpty()) {
             findServiceInterface(implClass).name
@@ -55,9 +53,7 @@ object FServiceManager {
             Class.forName(serviceClassName)?.let {
                 require(it.isInterface) { "serviceClassName should be an interface" }
                 require(it.isAssignableFrom(implClass)) { "$serviceClassName is not assignable from $implClassName" }
-                requireNotNull(it.getAnnotation(FService::class.java)) {
-                    "Annotation ${FService::class.java.simpleName} was not found in $serviceClassName"
-                }
+                it.requireAnnotation(FService::class.java)
             }
             serviceClassName
         }
@@ -131,4 +127,10 @@ private fun findServiceInterface(source: Class<*>): Class<*> {
 private fun Class<*>.requireIsClass() {
     require(!Modifier.isInterface(modifiers)) { "Class should not be an interface" }
     require(!Modifier.isAbstract(modifiers)) { "Class should not be abstract" }
+}
+
+private fun <T : Annotation> Class<*>.requireAnnotation(clazz: Class<T>): T {
+    return requireNotNull(getDeclaredAnnotation(clazz)) {
+        "Annotation ${clazz.simpleName} was not found in ${this.name}"
+    }
 }
