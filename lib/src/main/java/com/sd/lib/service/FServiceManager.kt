@@ -10,6 +10,8 @@ object FServiceManager {
      * 获取[clazz]接口的实现类对象
      */
     @Suppress("UNCHECKED_CAST")
+    @JvmStatic
+    @JvmOverloads
     fun <T> get(
         clazz: Class<T>,
         name: String = "",
@@ -32,6 +34,7 @@ object FServiceManager {
     /**
      * 注册实现类
      */
+    @JvmStatic
     fun register(implClass: Class<*>) {
         register(implClass.name)
     }
