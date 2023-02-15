@@ -1,5 +1,6 @@
 package com.sd.lib.service
 
+import android.os.Build
 import java.lang.reflect.Modifier
 
 object FServiceManager {
@@ -130,7 +131,15 @@ private fun Class<*>.requireIsClass() {
 }
 
 private fun <T : Annotation> Class<*>.requireAnnotation(clazz: Class<T>): T {
-    return requireNotNull(getDeclaredAnnotation(clazz)) {
+    return requireNotNull(getAnnotationCompat(clazz)) {
         "Annotation ${clazz.simpleName} was not found in ${this.name}"
+    }
+}
+
+private fun <T : Annotation> Class<*>.getAnnotationCompat(clazz: Class<T>): T? {
+    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+        getDeclaredAnnotation(clazz)
+    } else {
+        getAnnotation(clazz)
     }
 }
