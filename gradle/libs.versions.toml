@@ -1,9 +1,9 @@
 [versions]
 
-androidGradlePlugin = "7.3.1"
-kotlin = "1.7.21"
-ksp = "1.7.21-1.0.8"
-serviceCompiler = "1.0.0-alpha05"
+androidGradlePlugin = "7.4.0"
+kotlin = "1.8.0"
+ksp = "1.8.0-1.0.9"
+serviceCompiler = "1.0.0-alpha09"
 
 [libraries]
 
