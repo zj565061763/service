@@ -48,7 +48,7 @@ object FServiceManager {
         val implClass = Class.forName(implClassName).also {
             it.requireIsClass()
         }
-        val annotation = implClass.requireAnnotation(FServiceImpl::class.java)
+        val implAnnotation = implClass.requireAnnotation(FServiceImpl::class.java)
 
         val serviceInterface = if (serviceClassName.isEmpty()) {
             findServiceInterface(implClass).name
@@ -66,15 +66,15 @@ object FServiceManager {
                 _mapInterfaceImpl[serviceInterface] = it
             }
 
-            val config = holder[annotation.name]
+            val config = holder[implAnnotation.name]
             if (config != null) {
                 if (config.implClass == implClass) return
-                error("Implementation of $serviceInterface with name(${annotation.name}) has been mapped to ${config.implClass.name}")
+                error("Implementation of $serviceInterface with name(${implAnnotation.name}) has been mapped to ${config.implClass.name}")
             }
 
-            holder[annotation.name] = ServiceImplConfig(
+            holder[implAnnotation.name] = ServiceImplConfig(
                 implClass = implClass,
-                singleton = annotation.singleton,
+                singleton = implAnnotation.singleton,
             )
         }
     }
