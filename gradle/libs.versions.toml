@@ -8,7 +8,7 @@ androidGradlePlugin = "8.0.1"
 kotlin = "1.8.10"
 
 ksp = "1.8.10-1.0.9"
-serviceCompiler = "1.0.0-alpha11"
+serviceCompiler = "1.0.0-alpha12"
 
 [libraries]
 
