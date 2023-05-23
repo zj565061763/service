@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.sd.demo.service.app_module_common"
+    namespace = "com.sd.demo.service.module_common"
     compileSdk = libs.versions.androidCompileSdk.get().toInt()
     defaultConfig {
         minSdk = libs.versions.androidMinSdk.get().toInt()
