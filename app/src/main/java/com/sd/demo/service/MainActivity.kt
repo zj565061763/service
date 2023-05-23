@@ -1,24 +1,51 @@
 package com.sd.demo.service
 
 import android.os.Bundle
-import android.view.View
-import androidx.appcompat.app.AppCompatActivity
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.Button
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import com.sd.demo.service.module_common.LoginService
+import com.sd.demo.service.ui.theme.AppTheme
 import com.sd.lib.service.fs
 
-class MainActivity : AppCompatActivity(), View.OnClickListener {
+class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-    }
-
-    override fun onClick(v: View) {
-        when (v.id) {
-            R.id.btn -> {
-                fs<LoginService>().login()
-                fs<LoginService>("ModuleFeature1").login()
-                fs<LoginService>("ModuleFeature2").login()
+        setContent {
+            AppTheme {
+                Content(
+                    onClick = {
+                        fs<LoginService>().login()
+                        fs<LoginService>("ModuleFeature1").login()
+                        fs<LoginService>("ModuleFeature2").login()
+                    },
+                )
             }
+        }
+    }
+}
+
+@Composable
+private fun Content(
+    onClick: () -> Unit,
+) {
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(5.dp)
+    ) {
+        Button(
+            onClick = onClick
+        ) {
+            Text(text = "button")
         }
     }
 }

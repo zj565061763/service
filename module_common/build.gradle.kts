@@ -5,17 +5,17 @@ plugins {
 
 android {
     namespace = "com.sd.demo.service.app_module_common"
-    compileSdk = 33
+    compileSdk = libs.versions.androidCompileSdk.get().toInt()
     defaultConfig {
-        minSdk = 21
+        minSdk = libs.versions.androidMinSdk.get().toInt()
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_1_8.toString()
+        jvmTarget = JavaVersion.VERSION_17.toString()
     }
 }
 
