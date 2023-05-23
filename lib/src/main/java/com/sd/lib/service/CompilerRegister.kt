@@ -18,14 +18,13 @@ interface ServiceImplClassProvider {
 internal fun registerFromCompiler(interfaceName: String) {
     val filename = "$PackageRegister.${interfaceName.replace(".", Separator)}"
 
-    val clazz = try {
-        Class.forName(filename)
+    val instance = try {
+        Class.forName(filename).newInstance()
     } catch (e: Exception) {
         e.printStackTrace()
         null
     } ?: return
 
-    val instance = clazz.newInstance()
     if (instance is ServiceImplClassProvider) {
         instance.classes().forEach {
             FServiceManager.register(it)
