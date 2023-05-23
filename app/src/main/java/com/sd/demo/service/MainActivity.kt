@@ -24,8 +24,8 @@ class MainActivity : ComponentActivity() {
                 Content(
                     onClick = {
                         fs<LoginService>().login()
-                        fs<LoginService>("ModuleFeature1").login()
-                        fs<LoginService>("ModuleFeature2").login()
+                        fs<LoginService>("ModuleFeatureA1").login()
+                        fs<LoginService>("ModuleFeatureA2").login()
                     },
                 )
             }
