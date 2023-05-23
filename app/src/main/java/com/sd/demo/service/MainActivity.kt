@@ -26,6 +26,8 @@ class MainActivity : ComponentActivity() {
                         fs<LoginService>().login()
                         fs<LoginService>("ModuleFeatureA1").login()
                         fs<LoginService>("ModuleFeatureA2").login()
+                        fs<LoginService>("ModuleFeatureB1").login()
+                        fs<LoginService>("ModuleFeatureB2").login()
                     },
                 )
             }
