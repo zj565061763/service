@@ -67,15 +67,15 @@ private class ServiceImplConfig(
 
     fun instance(): Any {
         return if (singleton) {
-            _instance ?: newImplInstance().also {
+            _instance ?: newServiceImplInstance().also {
                 _instance = it
             }
         } else {
-            newImplInstance()
+            newServiceImplInstance()
         }
     }
 
-    private fun newImplInstance(): Any {
+    private fun newServiceImplInstance(): Any {
         return serviceImpl.newInstance()
     }
 }
