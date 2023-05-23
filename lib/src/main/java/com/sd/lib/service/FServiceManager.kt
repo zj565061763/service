@@ -104,7 +104,7 @@ private class ServiceImplConfig(
 private fun findServiceInterface(source: Class<*>): Class<*> {
     var ret: Class<*>? = null
 
-    var current = source
+    var current: Class<*> = source
     while (true) {
         val interfaces = current.interfaces
         if (interfaces.isEmpty()) break
