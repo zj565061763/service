@@ -66,6 +66,6 @@ dependencies {
 
     implementation(project(":lib"))
     implementation(project(":module_common"))
-    implementation(project(":module_feature"))
+    implementation(project(":module_feature_a"))
     ksp(libs.sd.serviceCompiler)
 }
