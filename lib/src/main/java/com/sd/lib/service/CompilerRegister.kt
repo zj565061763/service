@@ -15,8 +15,8 @@ interface ServiceImplClassProvider {
     fun classes(): List<String>
 }
 
-internal fun registerFromCompiler(interfaceName: String) {
-    val filename = "$PackageRegister.${interfaceName.replace(".", Separator)}"
+internal fun registerFromCompiler(serviceInterface: Class<*>) {
+    val filename = "$PackageRegister.${serviceInterface.name.replace(".", Separator)}"
 
     val instance = try {
         Class.forName(filename).newInstance()
@@ -26,8 +26,14 @@ internal fun registerFromCompiler(interfaceName: String) {
     } ?: return
 
     if (instance is ServiceImplClassProvider) {
-        instance.classes().forEach {
-            FServiceManager.register(it)
+        for (item in instance.classes()) {
+            val serviceImpl = try {
+                Class.forName(item)
+            } catch (e: Exception) {
+                e.printStackTrace()
+                continue
+            }
+            FServiceManager.register(serviceImpl)
         }
     }
 }

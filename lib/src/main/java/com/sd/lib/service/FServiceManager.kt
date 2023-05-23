@@ -4,28 +4,27 @@ import android.os.Build
 import java.lang.reflect.Modifier
 
 object FServiceManager {
-    private val _mapInterfaceImpl: MutableMap<String, MutableMap<String, ServiceImplConfig>> = hashMapOf()
+    private val _mapInterfaceImpl: MutableMap<Class<*>, MutableMap<String, ServiceImplConfig>> = hashMapOf()
 
     /**
-     * 获取[clazz]接口的实现类对象
+     * 获取[serviceInterface]接口名称为[name]的实现类对象
      */
     @Suppress("UNCHECKED_CAST")
     @JvmStatic
     @JvmOverloads
     fun <T> get(
-        clazz: Class<T>,
+        serviceInterface: Class<T>,
         name: String = "",
     ): T {
-        require(clazz.isInterface) { "Require class is interface" }
-        val serviceInterface = clazz.name
+        require(serviceInterface.isInterface) { "Require class is interface" }
         synchronized(this@FServiceManager) {
             var holder = _mapInterfaceImpl[serviceInterface]
             if (holder == null) {
                 registerFromCompiler(serviceInterface)
-                holder = _mapInterfaceImpl[serviceInterface] ?: error("Implementation of $serviceInterface was not found")
+                holder = _mapInterfaceImpl[serviceInterface] ?: error("Implementation of ${serviceInterface.name} was not found")
             }
 
-            val config = holder[name] ?: error("Implementation of $serviceInterface with name($name) was not found")
+            val config = holder[name] ?: error("Implementation of ${serviceInterface.name} with name($name) was not found")
             return config.instance() as T
         }
     }
@@ -34,33 +33,13 @@ object FServiceManager {
      * 注册实现类
      */
     @JvmStatic
-    fun register(implClass: Class<*>) {
-        register(implClass.name)
-    }
-
-    /**
-     * 注册实现类
-     */
-    internal fun register(
-        implClassName: String,
-        serviceClassName: String = ""
-    ) {
-        val implClass = Class.forName(implClassName).also {
-            it.requireIsClass()
+    fun register(serviceImpl: Class<*>) {
+        serviceImpl.run {
+            require(!Modifier.isInterface(modifiers)) { "serviceImpl should not be an interface" }
+            require(!Modifier.isAbstract(modifiers)) { "serviceImpl should not be abstract" }
         }
-        val implAnnotation = implClass.requireAnnotation(FServiceImpl::class.java)
-
-        val serviceInterface = if (serviceClassName.isEmpty()) {
-            findServiceInterface(implClass).name
-        } else {
-            Class.forName(serviceClassName)?.let {
-                require(it.isInterface) { "serviceClassName should be an interface" }
-                require(it.isAssignableFrom(implClass)) { "$serviceClassName is not assignable from $implClassName" }
-                it.requireAnnotation(FService::class.java)
-            }
-            serviceClassName
-        }
-
+        val implAnnotation = serviceImpl.requireAnnotation(FServiceImpl::class.java)
+        val serviceInterface = findServiceInterface(serviceImpl)
         synchronized(this@FServiceManager) {
             val holder = _mapInterfaceImpl[serviceInterface] ?: hashMapOf<String, ServiceImplConfig>().also {
                 _mapInterfaceImpl[serviceInterface] = it
@@ -68,12 +47,12 @@ object FServiceManager {
 
             val config = holder[implAnnotation.name]
             if (config != null) {
-                if (config.implClass == implClass) return
-                error("Implementation of $serviceInterface with name(${implAnnotation.name}) has been mapped to ${config.implClass.name}")
+                if (config.serviceImpl == serviceImpl) return
+                error("Implementation of ${serviceInterface.name} with name(${implAnnotation.name}) has been mapped to ${config.serviceImpl.name}")
             }
 
             holder[implAnnotation.name] = ServiceImplConfig(
-                implClass = implClass,
+                serviceImpl = serviceImpl,
                 singleton = implAnnotation.singleton,
             )
         }
@@ -81,7 +60,7 @@ object FServiceManager {
 }
 
 private class ServiceImplConfig(
-    val implClass: Class<*>,
+    val serviceImpl: Class<*>,
     val singleton: Boolean,
 ) {
     private var _instance: Any? = null
@@ -97,7 +76,7 @@ private class ServiceImplConfig(
     }
 
     private fun newImplInstance(): Any {
-        return implClass.newInstance()
+        return serviceImpl.newInstance()
     }
 }
 
@@ -125,11 +104,6 @@ private fun findServiceInterface(source: Class<*>): Class<*> {
     return checkNotNull(ret) {
         "Interface marked with annotation @${FService::class.java.simpleName} was not found in ${source.name} super types"
     }
-}
-
-private fun Class<*>.requireIsClass() {
-    require(!Modifier.isInterface(modifiers)) { "Class should not be an interface" }
-    require(!Modifier.isAbstract(modifiers)) { "Class should not be abstract" }
 }
 
 private fun <T : Annotation> Class<*>.requireAnnotation(clazz: Class<T>): T {
