@@ -16,7 +16,7 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "service"
-include(":lib")
+include(":api")
 include(":sample")
 include(":sample_common")
 include(":sample_feature_a")

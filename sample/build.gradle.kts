@@ -51,9 +51,10 @@ dependencies {
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.androidx.test.espresso.core)
 
-    implementation(project(":lib"))
     implementation(project(":sample_common"))
     implementation(project(":sample_feature_a"))
     implementation(project(":sample_feature_b"))
+
+    implementation(project(":api"))
     ksp(libs.sd.serviceCompiler)
 }

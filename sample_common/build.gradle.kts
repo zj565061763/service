@@ -18,7 +18,7 @@ android {
         jvmTarget = JavaVersion.VERSION_17.toString()
     }
 }
-
 dependencies {
-    api(project(":lib"))
+    api(project(":api"))
 }
+
