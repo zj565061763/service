@@ -56,5 +56,5 @@ dependencies {
     implementation(project(":sample_feature_b"))
 
     implementation(project(":api"))
-    ksp(libs.sd.serviceCompiler)
+    ksp(project(":compiler"))
 }

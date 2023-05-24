@@ -17,6 +17,7 @@ dependencyResolutionManagement {
 
 rootProject.name = "service"
 include(":api")
+include(":compiler")
 include(":sample")
 include(":sample_common")
 include(":sample_feature_a")
