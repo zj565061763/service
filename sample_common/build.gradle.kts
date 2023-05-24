@@ -25,7 +25,7 @@ ksp {
 }
 
 dependencies {
-    api(project(":api"))
+    api(project(":service"))
     ksp(project(":compiler"))
 }
 
