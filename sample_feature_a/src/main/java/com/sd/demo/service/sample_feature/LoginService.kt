@@ -1,18 +1,18 @@
-package com.sd.demo.service.sample_feature_b
+package com.sd.demo.service.sample_feature
 
 import com.sd.demo.service.sample_common.LoginService
 import com.sd.demo.service.sample_common.logMsg
 import com.sd.lib.service.FServiceImpl
 
-@FServiceImpl("FeatureB1")
-class LoginServiceFeatureB1 : LoginService {
+@FServiceImpl("F1")
+class LoginServiceF1 : LoginService {
     override fun login() {
         logMsg { "$this login" }
     }
 }
 
-@FServiceImpl("FeatureB2")
-class LoginServiceFeatureB2 : LoginService {
+@FServiceImpl("F2")
+class LoginServiceF2 : LoginService {
     override fun login() {
         logMsg { "$this login" }
     }

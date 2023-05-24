@@ -53,7 +53,6 @@ dependencies {
 
     implementation(project(":sample_common"))
     implementation(project(":sample_feature_a"))
-    implementation(project(":sample_feature_b"))
 
     implementation(project(":api"))
     ksp(project(":compiler"))
