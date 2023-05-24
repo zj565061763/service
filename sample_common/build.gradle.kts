@@ -26,6 +26,6 @@ ksp {
 
 dependencies {
     api(project(":service"))
-    ksp(project(":compiler"))
+    ksp(project(":service_compiler"))
 }
 
