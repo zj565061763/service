@@ -50,7 +50,7 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.androidx.test.espresso.core)
+    implementation(project(":sample-common"))
 
-    implementation(project(":sample_common"))
     ksp(project(":service_compiler"))
 }
