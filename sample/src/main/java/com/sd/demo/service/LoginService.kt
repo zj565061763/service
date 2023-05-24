@@ -1,7 +1,7 @@
 package com.sd.demo.service
 
-import com.sd.demo.service.module_common.LoginService
-import com.sd.demo.service.module_common.logMsg
+import com.sd.demo.service.sample_common.LoginService
+import com.sd.demo.service.sample_common.logMsg
 import com.sd.lib.service.FServiceImpl
 
 @FServiceImpl(singleton = true)

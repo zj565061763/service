@@ -1,4 +1,4 @@
-package com.sd.demo.service.module_common
+package com.sd.demo.service.sample_common
 
 import com.sd.lib.service.FService
 

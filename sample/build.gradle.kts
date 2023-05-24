@@ -52,7 +52,7 @@ dependencies {
     androidTestImplementation(libs.androidx.test.espresso.core)
 
     implementation(project(":lib"))
-    implementation(project(":module_common"))
+    implementation(project(":sample_common"))
     implementation(project(":module_feature_a"))
     implementation(project(":module_feature_b"))
     ksp(libs.sd.serviceCompiler)

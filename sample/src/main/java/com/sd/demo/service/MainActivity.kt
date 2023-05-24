@@ -3,7 +3,7 @@ package com.sd.demo.service
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.sd.demo.service.databinding.ActivityMainBinding
-import com.sd.demo.service.module_common.LoginService
+import com.sd.demo.service.sample_common.LoginService
 import com.sd.lib.service.fs
 
 class MainActivity : AppCompatActivity() {
