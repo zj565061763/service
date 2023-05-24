@@ -19,4 +19,4 @@ rootProject.name = "service"
 include(":sample")
 include(":sample-common")
 include(":service")
-include(":service_compiler")
+include(":service-compiler")
