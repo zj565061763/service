@@ -75,7 +75,7 @@ private class FServiceImplProcessor(
         if (_createdHolder.contains(service)) return
         _createdHolder.add(service)
 
-        val filename = "${service.qualifiedName!!.asString().fReplaceDot()}_$moduleName"
+        val filename = "${moduleName}_${service.qualifiedName!!.asString().fReplaceDot()}"
         log("createFile $filename impl:${listImpl.size}")
 
         val typeSpec = TypeSpec.classBuilder(filename)
