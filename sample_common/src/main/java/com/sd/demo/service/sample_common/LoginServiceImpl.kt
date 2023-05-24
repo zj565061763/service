@@ -1,7 +1,5 @@
-package com.sd.demo.service.sample_feature
+package com.sd.demo.service.sample_common
 
-import com.sd.demo.service.sample_common.LoginService
-import com.sd.demo.service.sample_common.logMsg
 import com.sd.lib.service.FServiceImpl
 
 @FServiceImpl("F1")

@@ -1,6 +1,7 @@
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -18,7 +19,13 @@ android {
         jvmTarget = JavaVersion.VERSION_17.toString()
     }
 }
+
+ksp {
+    arg("FSERVICE_MODULE_NAME", project.name)
+}
+
 dependencies {
     api(project(":api"))
+    ksp(project(":compiler"))
 }
 
