@@ -53,7 +53,7 @@ dependencies {
 
     implementation(project(":lib"))
     implementation(project(":sample_common"))
-    implementation(project(":module_feature_a"))
-    implementation(project(":module_feature_b"))
+    implementation(project(":sample_feature_a"))
+    implementation(project(":sample_feature_b"))
     ksp(libs.sd.serviceCompiler)
 }

@@ -19,5 +19,5 @@ rootProject.name = "service"
 include(":lib")
 include(":sample")
 include(":sample_common")
-include(":module_feature_a")
-include(":module_feature_b")
+include(":sample_feature_a")
+include(":sample_feature_b")

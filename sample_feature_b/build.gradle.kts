@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.sd.demo.service.module_feature_b"
+    namespace = "com.sd.demo.service.sample_feature_b"
     compileSdk = libs.versions.androidCompileSdk.get().toInt()
     defaultConfig {
         minSdk = libs.versions.androidMinSdk.get().toInt()

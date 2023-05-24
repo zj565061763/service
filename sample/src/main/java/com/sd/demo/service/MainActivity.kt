@@ -15,10 +15,10 @@ class MainActivity : AppCompatActivity() {
 
         _binding.btn.setOnClickListener {
             fs<LoginService>().login()
-            fs<LoginService>("ModuleFeatureA1").login()
-            fs<LoginService>("ModuleFeatureA2").login()
-            fs<LoginService>("ModuleFeatureB1").login()
-            fs<LoginService>("ModuleFeatureB2").login()
+            fs<LoginService>("FeatureA1").login()
+            fs<LoginService>("FeatureA2").login()
+            fs<LoginService>("FeatureB1").login()
+            fs<LoginService>("FeatureB2").login()
         }
     }
 }
