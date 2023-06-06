@@ -5,10 +5,10 @@ androidMinSdk = "21"
 androidTargetSdk = "33"
 
 androidGradlePlugin = "8.0.1"
-kotlin = "1.8.10"
+kotlin = "1.8.21"
 
-ksp = "1.8.10-1.0.9"
-kotlinpoetKsp = "1.13.2"
+ksp = "1.8.21-1.0.11"
+kotlinpoetKsp = "1.14.2"
 
 [libraries]
 
