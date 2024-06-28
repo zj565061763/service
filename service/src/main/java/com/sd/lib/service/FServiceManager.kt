@@ -4,27 +4,27 @@ import android.os.Build
 import java.lang.reflect.Modifier
 
 object FServiceManager {
-    private val _mapInterfaceImpl: MutableMap<Class<*>, MutableMap<String, ServiceImplConfig>> = hashMapOf()
+    private val _implHolder: MutableMap<Class<*>, MutableMap<String, ServiceImplConfig>> = hashMapOf()
 
     /**
      * 获取[serviceInterface]接口名称为[name]的实现类对象
      */
-    @Suppress("UNCHECKED_CAST")
     @JvmStatic
     @JvmOverloads
     fun <T> get(
         serviceInterface: Class<T>,
         name: String = "",
     ): T {
-        require(serviceInterface.isInterface) { "Require class is interface" }
-        synchronized(this@FServiceManager) {
-            var holder = _mapInterfaceImpl[serviceInterface]
+        require(serviceInterface.isInterface) { "Require interface class" }
+        synchronized(FServiceManager) {
+            var holder = _implHolder[serviceInterface]
             if (holder == null) {
                 registerFromCompiler(serviceInterface)
-                holder = _mapInterfaceImpl[serviceInterface] ?: error("Implementation of ${serviceInterface.name} was not found")
+                holder = _implHolder[serviceInterface] ?: error("Implementation of ${serviceInterface.name} was not found")
             }
 
             val config = holder[name] ?: error("Implementation of ${serviceInterface.name} with name($name) was not found")
+            @Suppress("UNCHECKED_CAST")
             return config.instance() as T
         }
     }
@@ -41,8 +41,8 @@ object FServiceManager {
         val implAnnotation = serviceImpl.requireAnnotation(FServiceImpl::class.java)
         val serviceInterface = findServiceInterface(serviceImpl)
         synchronized(this@FServiceManager) {
-            val holder = _mapInterfaceImpl[serviceInterface] ?: hashMapOf<String, ServiceImplConfig>().also {
-                _mapInterfaceImpl[serviceInterface] = it
+            val holder = _implHolder[serviceInterface] ?: hashMapOf<String, ServiceImplConfig>().also {
+                _implHolder[serviceInterface] = it
             }
 
             val config = holder[implAnnotation.name]
