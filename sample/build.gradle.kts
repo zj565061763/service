@@ -8,8 +8,8 @@ android {
     namespace = "com.sd.demo.service"
     compileSdk = libs.versions.androidCompileSdk.get().toInt()
     defaultConfig {
-        minSdk = libs.versions.androidMinSdk.get().toInt()
-        targetSdk = libs.versions.androidTargetSdk.get().toInt()
+        targetSdk = libs.versions.androidCompileSdk.get().toInt()
+        minSdk = 21
         applicationId = "com.sd.demo.service"
         versionCode = 1
         versionName = "1.0"
@@ -27,13 +27,18 @@ android {
         }
     }
 
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+
     buildFeatures {
         viewBinding = true
     }
-}
-
-kotlin {
-    jvmToolchain(8)
 }
 
 ksp {

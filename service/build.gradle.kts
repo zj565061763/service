@@ -6,16 +6,22 @@ plugins {
 
 val libGroupId = "com.sd.lib.android"
 val libArtifactId = "service"
-val libVersionName = "1.0.0-alpha18"
+val libVersion = "1.0.0-alpha18"
 
 android {
     namespace = "com.sd.lib.service"
     compileSdk = libs.versions.androidCompileSdk.get().toInt()
     defaultConfig {
-        minSdk = libs.versions.androidMinSdk.get().toInt()
+        minSdk = 21
+    }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
     }
 
     kotlinOptions {
+        jvmTarget = "1.8"
         freeCompilerArgs += "-module-name=$libGroupId.$libArtifactId"
     }
 
@@ -26,21 +32,18 @@ android {
     }
 }
 
-kotlin {
-    jvmToolchain(8)
-}
-
 dependencies {
 }
 
-afterEvaluate {
-    publishing {
-        publications {
-            create<MavenPublication>("release") {
+publishing {
+    publications {
+        create<MavenPublication>("release") {
+            groupId = libGroupId
+            artifactId = libArtifactId
+            version = libVersion
+
+            afterEvaluate {
                 from(components["release"])
-                groupId = libGroupId
-                artifactId = libArtifactId
-                version = libVersionName
             }
         }
     }
