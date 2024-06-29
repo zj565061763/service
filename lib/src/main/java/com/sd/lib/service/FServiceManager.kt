@@ -17,12 +17,7 @@ object FServiceManager {
     ): T {
         require(service.isInterface) { "Require interface class" }
         synchronized(FServiceManager) {
-            var holder = _implHolder[service]
-            if (holder == null) {
-                registerFromCompiler(service)
-                holder = _implHolder[service] ?: error("Implementation of ${service.name} was not found")
-            }
-
+            val holder = _implHolder[service] ?: error("Implementation of ${service.name} was not found")
             val config = holder[name] ?: error("Implementation of ${service.name} with name($name) was not found")
             @Suppress("UNCHECKED_CAST")
             return config.instance() as T
