@@ -34,14 +34,8 @@ object FServiceManager {
      */
     @JvmStatic
     fun registerImpl(serviceImpl: Class<*>) {
-        serviceImpl.run {
-            require(!Modifier.isInterface(modifiers)) { "serviceImpl should not be an interface" }
-            require(!Modifier.isAbstract(modifiers)) { "serviceImpl should not be abstract" }
-        }
-
         val implAnnotation = serviceImpl.requireAnnotation(FServiceImpl::class.java)
         val serviceInterface = findServiceInterface(serviceImpl)
-
         synchronized(FServiceManager) {
             val holder = _implHolder.getOrPut(serviceInterface) { mutableMapOf() }
 
@@ -81,23 +75,26 @@ private class ServiceImplConfig(
 }
 
 private fun findServiceInterface(source: Class<*>): Class<*> {
+    source.run {
+        require(!Modifier.isInterface(modifiers)) { "${source.name} is interface" }
+        require(!Modifier.isAbstract(modifiers)) { "${source.name} is abstract" }
+    }
+
     var ret: Class<*>? = null
 
     var current: Class<*> = source
     while (true) {
         val interfaces = current.interfaces
-        if (interfaces.isEmpty()) break
-
+        if (interfaces.isNullOrEmpty()) break
         for (item in interfaces) {
             if (item.isAnnotationPresent(FService::class.java)) {
                 if (ret == null) {
                     ret = item
                 } else {
-                    error("More than one service interface present in ${source.name} : ${ret.name}, ${item.name}")
+                    error("More than one service interface present in ${source.name} (${ret.name}) (${item.name})")
                 }
             }
         }
-
         current = current.superclass ?: break
     }
 
