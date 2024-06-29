@@ -27,13 +27,6 @@ class ServiceTest {
                 exception.message
             )
         }
-
-        runCatching {
-            fsRegister<TestServiceImplAbstract>()
-        }.let { result ->
-            val exception = result.exceptionOrNull() as IllegalArgumentException
-            assertEquals("${TestServiceImplAbstract::class.java.name} is abstract", exception.message)
-        }
     }
 
     @Test

@@ -6,13 +6,10 @@ class TestServiceImplNoAnnotation
 
 @FServiceImpl
 interface TestServiceImplInterface
-
 @FServiceImpl
 abstract class TestServiceImplAbstract
-
 @FServiceImpl
 class TestServiceImplNoService
-
 @FServiceImpl
 class TestServiceImplMultiService : TestService1, TestService2
 
