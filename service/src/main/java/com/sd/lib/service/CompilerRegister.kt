@@ -19,7 +19,7 @@ internal fun registerFromCompiler(serviceInterface: Class<*>) {
     val filename = "$PackageRegister.${serviceInterface.name.replace(".", Separator)}"
 
     val instance = try {
-        Class.forName(filename).newInstance()
+        Class.forName(filename).getDeclaredConstructor().newInstance()
     } catch (e: Exception) {
         e.printStackTrace()
         null

@@ -76,7 +76,7 @@ private class ServiceImplConfig(
     }
 
     private fun newServiceImplInstance(): Any {
-        return serviceImpl.newInstance()
+        return serviceImpl.getDeclaredConstructor().newInstance()
     }
 }
 
