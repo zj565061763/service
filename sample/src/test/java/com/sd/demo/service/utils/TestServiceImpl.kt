@@ -5,10 +5,10 @@ import com.sd.lib.service.FServiceImpl
 class TestServiceImplNoAnnotation
 
 @FServiceImpl
-interface TestServiceImplInterface : TestService1
+interface TestServiceImplInterface
 
 @FServiceImpl
-abstract class TestServiceImplAbstract : TestService1
+abstract class TestServiceImplAbstract
 
 @FServiceImpl
 class TestServiceImplNoService

@@ -2,6 +2,8 @@ package com.sd.demo.service
 
 import com.sd.demo.service.utils.TestService1
 import com.sd.demo.service.utils.TestService2
+import com.sd.demo.service.utils.TestServiceImpl11
+import com.sd.demo.service.utils.TestServiceImpl12
 import com.sd.demo.service.utils.TestServiceImplAbstract
 import com.sd.demo.service.utils.TestServiceImplInterface
 import com.sd.demo.service.utils.TestServiceImplMultiService
@@ -72,6 +74,20 @@ class ServiceTest {
             val exception = result.exceptionOrNull() as IllegalArgumentException
             assertEquals(
                 "More than one service interface present in ${TestServiceImplMultiService::class.java.name} (${TestService1::class.java.name}) (${TestService2::class.java.name})",
+                exception.message
+            )
+        }
+    }
+
+    @Test
+    fun registerMultiTimes() {
+        fsRegister<TestServiceImpl11>()
+        runCatching {
+            fsRegister<TestServiceImpl12>()
+        }.let { result ->
+            val exception = result.exceptionOrNull() as IllegalArgumentException
+            assertEquals(
+                "Implementation of ${TestService1::class.java.name} with name() has been mapped to ${TestServiceImpl11::class.java.name}",
                 exception.message
             )
         }
