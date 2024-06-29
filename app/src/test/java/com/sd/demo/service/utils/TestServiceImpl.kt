@@ -1,26 +1,29 @@
 package com.sd.demo.service.utils
 
-import com.sd.lib.service.FServiceImpl
+import com.sd.lib.service.FService
 
 class TestServiceImplNoAnnotation
-
-@FServiceImpl
+@FService
 interface TestServiceImplInterface
-@FServiceImpl
+@FService
 abstract class TestServiceImplAbstract
-@FServiceImpl
-class TestServiceImplNoService
-@FServiceImpl
-class TestServiceImplMultiService : TestService1, TestService2
+@FService
+class TestServiceImplNoInterface
 
-@FServiceImpl
+@FService
 class TestServiceImpl01 : TestService0
-@FServiceImpl
+@FService
 class TestServiceImpl02 : TestService0
 
-@FServiceImpl
+@FService
+class TestServiceImpl999 : TestService999
+
+@FService
+class TestServiceImplMultiService : TestService1, TestService2
+
+@FService
 class TestServiceImpl : TestService
-@FServiceImpl("name")
+@FService("name")
 class TestServiceImplName : TestService
-@FServiceImpl("singleton", true)
+@FService("singleton", true)
 class TestServiceImplSingleton : TestService

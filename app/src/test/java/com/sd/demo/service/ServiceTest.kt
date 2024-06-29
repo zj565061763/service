@@ -2,21 +2,18 @@ package com.sd.demo.service
 
 import com.sd.demo.service.utils.TestService
 import com.sd.demo.service.utils.TestService0
-import com.sd.demo.service.utils.TestService1
-import com.sd.demo.service.utils.TestService2
 import com.sd.demo.service.utils.TestService999
 import com.sd.demo.service.utils.TestServiceImpl
 import com.sd.demo.service.utils.TestServiceImpl01
 import com.sd.demo.service.utils.TestServiceImpl02
+import com.sd.demo.service.utils.TestServiceImpl999
 import com.sd.demo.service.utils.TestServiceImplAbstract
 import com.sd.demo.service.utils.TestServiceImplInterface
-import com.sd.demo.service.utils.TestServiceImplMultiService
 import com.sd.demo.service.utils.TestServiceImplName
 import com.sd.demo.service.utils.TestServiceImplNoAnnotation
-import com.sd.demo.service.utils.TestServiceImplNoService
+import com.sd.demo.service.utils.TestServiceImplNoInterface
 import com.sd.demo.service.utils.TestServiceImplSingleton
 import com.sd.lib.service.FService
-import com.sd.lib.service.FServiceImpl
 import com.sd.lib.service.fs
 import com.sd.lib.service.fsRegister
 import org.junit.Assert.assertEquals
@@ -24,20 +21,19 @@ import org.junit.Test
 
 class ServiceTest {
     @Test
-    fun registerNoAnnotation() {
+    fun register() {
+        // no annotation
         runCatching {
             fsRegister<TestServiceImplNoAnnotation>()
         }.let { result ->
             val exception = result.exceptionOrNull() as IllegalArgumentException
             assertEquals(
-                "Annotation ${FServiceImpl::class.java.simpleName} was not found in ${TestServiceImplNoAnnotation::class.java.name}",
+                "Annotation ${FService::class.java.simpleName} was not found in ${TestServiceImplNoAnnotation::class.java.name}",
                 exception.message
             )
         }
-    }
 
-    @Test
-    fun registerNotClass() {
+        // is interface
         runCatching {
             fsRegister<TestServiceImplInterface>()
         }.let { result ->
@@ -45,35 +41,21 @@ class ServiceTest {
             assertEquals("${TestServiceImplInterface::class.java.name} is interface", exception.message)
         }
 
+        // is abstract
         runCatching {
             fsRegister<TestServiceImplAbstract>()
         }.let { result ->
             val exception = result.exceptionOrNull() as IllegalArgumentException
             assertEquals("${TestServiceImplAbstract::class.java.name} is abstract", exception.message)
         }
-    }
 
-    @Test
-    fun registerNoService() {
+        // no interface
         runCatching {
-            fsRegister<TestServiceImplNoService>()
+            fsRegister<TestServiceImplNoInterface>()
         }.let { result ->
             val exception = result.exceptionOrNull() as IllegalArgumentException
             assertEquals(
-                "Interface marked with annotation @${FService::class.java.simpleName} was not found in ${TestServiceImplNoService::class.java.name} super types",
-                exception.message
-            )
-        }
-    }
-
-    @Test
-    fun registerMultiService() {
-        runCatching {
-            fsRegister<TestServiceImplMultiService>()
-        }.let { result ->
-            val exception = result.exceptionOrNull() as IllegalArgumentException
-            assertEquals(
-                "More than one service interface present in ${TestServiceImplMultiService::class.java.name} (${TestService1::class.java.name}) (${TestService2::class.java.name})",
+                "Interface was not found in ${TestServiceImplNoInterface::class.java.name}",
                 exception.message
             )
         }
@@ -82,26 +64,23 @@ class ServiceTest {
     @Test
     fun registerMultiTimes() {
         fsRegister<TestServiceImpl01>()
-        fsRegister<TestServiceImpl01>()
+
         runCatching {
-            fsRegister<TestServiceImpl02>()
+            fsRegister<TestServiceImpl01>()
         }.let { result ->
-            val exception = result.exceptionOrNull() as IllegalArgumentException
+            val exception = result.exceptionOrNull() as IllegalStateException
             assertEquals(
-                "Implementation of ${TestService0::class.java.name} with name() has been mapped to ${TestServiceImpl01::class.java.name}",
+                "Factory of ${TestService0::class.java.name} with name () already exist",
                 exception.message
             )
         }
-    }
 
-    @Test
-    fun getInterface() {
         runCatching {
-            fs<TestServiceImpl>()
+            fsRegister<TestServiceImpl02>()
         }.let { result ->
-            val exception = result.exceptionOrNull() as IllegalArgumentException
+            val exception = result.exceptionOrNull() as IllegalStateException
             assertEquals(
-                "Require interface class",
+                "Factory of ${TestService0::class.java.name} with name () already exist",
                 exception.message
             )
         }
@@ -114,7 +93,20 @@ class ServiceTest {
         }.let { result ->
             val exception = result.exceptionOrNull() as IllegalStateException
             assertEquals(
-                "Implementation of ${TestService999::class.java.name} was not found",
+                "Service (${TestService999::class.java.name}) was not found",
+                exception.message
+            )
+        }
+
+        fsRegister<TestServiceImpl999>()
+        fs<TestService999>()
+
+        runCatching {
+            fs<TestService999>("999")
+        }.let { result ->
+            val exception = result.exceptionOrNull() as IllegalStateException
+            assertEquals(
+                "Service (${TestService999::class.java.name}) with name (999) was not found",
                 exception.message
             )
         }
@@ -130,15 +122,5 @@ class ServiceTest {
         assertEquals(true, fs<TestService>("name") is TestServiceImplName)
         assertEquals(true, fs<TestService>("singleton") is TestServiceImplSingleton)
         assertEquals(true, fs<TestService>("singleton") === fs<TestService>("singleton"))
-
-        runCatching {
-            fs<TestService>("123")
-        }.let { result ->
-            val exception = result.exceptionOrNull() as IllegalStateException
-            assertEquals(
-                "Implementation of ${TestService::class.java.name} with name(123) was not found",
-                exception.message
-            )
-        }
     }
 }

@@ -2,11 +2,7 @@ package com.sd.lib.service
 
 @Retention(AnnotationRetention.RUNTIME)
 @Target(AnnotationTarget.CLASS)
-annotation class FService
-
-@Retention(AnnotationRetention.RUNTIME)
-@Target(AnnotationTarget.CLASS)
-annotation class FServiceImpl(
+annotation class FService(
     val name: String = "",
     val singleton: Boolean = false,
 )
@@ -15,12 +11,12 @@ annotation class FServiceImpl(
  * 创建[T]的实现类对象
  */
 inline fun <reified T> fs(name: String = ""): T {
-    return FServiceManager.get(T::class.java, name)
+    return FS.get(T::class.java, name)
 }
 
 /**
  * 创建[T]的实现类对象
  */
 inline fun <reified T> fsRegister() {
-    return FServiceManager.registerImpl(T::class.java)
+    return FS.register(T::class.java)
 }
