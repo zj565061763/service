@@ -94,6 +94,16 @@ class ServiceTest {
 
     @Test
     fun get() {
+        runCatching {
+            fs<TestServiceImpl>()
+        }.let { result->
+            val exception = result.exceptionOrNull() as IllegalArgumentException
+            assertEquals(
+                "Require interface class",
+                exception.message
+            )
+        }
+
         fsRegister<TestServiceImpl>()
         fsRegister<TestServiceImplName>()
         assertEquals(true, fs<TestService>() is TestServiceImpl)
