@@ -119,8 +119,15 @@ class ServiceTest {
         fsRegister<TestServiceImplSingleton>()
 
         assertEquals(true, fs<TestService>() is TestServiceImpl)
+        assertEquals(true, fs<TestService>() !== fs<TestService>())
+
         assertEquals(true, fs<TestService>("name") is TestServiceImplName)
+        assertEquals(true, fs<TestService>("name") !== fs<TestService>("name"))
+
         assertEquals(true, fs<TestService>("singleton") is TestServiceImplSingleton)
         assertEquals(true, fs<TestService>("singleton") === fs<TestService>("singleton"))
+
+        assertEquals(true, fs<TestService>() !== fs<TestService>("name"))
+        assertEquals(true, fs<TestService>() !== fs<TestService>("singleton"))
     }
 }
