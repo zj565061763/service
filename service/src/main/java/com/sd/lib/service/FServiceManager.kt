@@ -48,7 +48,7 @@ object FServiceManager {
             val config = holder[implAnnotation.name]
             if (config != null) {
                 if (config.serviceImpl == serviceImpl) return
-                error("Can not register ${serviceImpl.name} because the implementation of ${serviceInterface.name} with name(${implAnnotation.name}) has been mapped to ${config.serviceImpl.name}")
+                error("Implementation of ${serviceInterface.name} with name(${implAnnotation.name}) has been mapped to ${config.serviceImpl.name}")
             }
 
             holder[implAnnotation.name] = ServiceImplConfig(
