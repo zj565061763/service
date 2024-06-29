@@ -2,6 +2,8 @@ package com.sd.demo.service.utils
 
 import com.sd.lib.service.FServiceImpl
 
+class TestServiceImplNoAnnotation
+
 @FServiceImpl
 interface TestServiceImplInterface : TestService1
 
