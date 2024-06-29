@@ -1,7 +1,6 @@
 plugins {
-    id("com.android.application")
-    id("org.jetbrains.kotlin.android")
-    id("com.google.devtools.ksp")
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.android)
 }
 
 android {
@@ -41,17 +40,11 @@ android {
     }
 }
 
-ksp {
-    arg("FSERVICE_MODULE_NAME", "FSERVICE_MODULE_MAIN")
-}
-
 dependencies {
     implementation(libs.androidx.appcompat)
-
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.androidx.test.espresso.core)
 
-    implementation(project(":sample-common"))
-    ksp(project(":service-compiler"))
+    implementation(project(":service"))
 }
