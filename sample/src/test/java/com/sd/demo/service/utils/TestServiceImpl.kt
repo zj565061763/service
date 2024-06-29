@@ -22,3 +22,5 @@ class TestServiceImpl02 : TestService0
 class TestServiceImpl : TestService
 @FServiceImpl("name")
 class TestServiceImplName : TestService
+@FServiceImpl("singleton", true)
+class TestServiceImplSingleton : TestService

@@ -14,6 +14,7 @@ import com.sd.demo.service.utils.TestServiceImplMultiService
 import com.sd.demo.service.utils.TestServiceImplName
 import com.sd.demo.service.utils.TestServiceImplNoAnnotation
 import com.sd.demo.service.utils.TestServiceImplNoService
+import com.sd.demo.service.utils.TestServiceImplSingleton
 import com.sd.lib.service.FService
 import com.sd.lib.service.FServiceImpl
 import com.sd.lib.service.fs
@@ -123,9 +124,12 @@ class ServiceTest {
     fun get() {
         fsRegister<TestServiceImpl>()
         fsRegister<TestServiceImplName>()
+        fsRegister<TestServiceImplSingleton>()
 
         assertEquals(true, fs<TestService>() is TestServiceImpl)
         assertEquals(true, fs<TestService>("name") is TestServiceImplName)
+        assertEquals(true, fs<TestService>("singleton") is TestServiceImplSingleton)
+        assertEquals(true, fs<TestService>("singleton") === fs<TestService>("singleton"))
 
         runCatching {
             fs<TestService>("123")
