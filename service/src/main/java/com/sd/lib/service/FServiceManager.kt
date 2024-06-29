@@ -7,23 +7,23 @@ object FServiceManager {
     private val _implHolder: MutableMap<Class<*>, MutableMap<String, ServiceImplConfig>> = mutableMapOf()
 
     /**
-     * 获取[serviceInterface]接口名称为[name]的实现类对象
+     * 获取[service]接口名称为[name]的实现类对象
      */
     @JvmStatic
     @JvmOverloads
     fun <T> get(
-        serviceInterface: Class<T>,
+        service: Class<T>,
         name: String = "",
     ): T {
-        require(serviceInterface.isInterface) { "Require interface class" }
+        require(service.isInterface) { "Require interface class" }
         synchronized(FServiceManager) {
-            var holder = _implHolder[serviceInterface]
+            var holder = _implHolder[service]
             if (holder == null) {
-                registerFromCompiler(serviceInterface)
-                holder = _implHolder[serviceInterface] ?: error("Implementation of ${serviceInterface.name} was not found")
+                registerFromCompiler(service)
+                holder = _implHolder[service] ?: error("Implementation of ${service.name} was not found")
             }
 
-            val config = holder[name] ?: error("Implementation of ${serviceInterface.name} with name($name) was not found")
+            val config = holder[name] ?: error("Implementation of ${service.name} with name($name) was not found")
             @Suppress("UNCHECKED_CAST")
             return config.instance() as T
         }
