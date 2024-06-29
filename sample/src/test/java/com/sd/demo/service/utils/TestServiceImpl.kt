@@ -14,7 +14,11 @@ class TestServiceImplNoService
 class TestServiceImplMultiService : TestService1, TestService2
 
 @FServiceImpl
-class TestServiceImpl11 : TestService1
+class TestServiceImpl01 : TestService0
+@FServiceImpl
+class TestServiceImpl02 : TestService0
 
 @FServiceImpl
-class TestServiceImpl12 : TestService1
+class TestServiceImpl : TestService
+@FServiceImpl("name")
+class TestServiceImplName : TestService

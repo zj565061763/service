@@ -1,16 +1,21 @@
 package com.sd.demo.service
 
+import com.sd.demo.service.utils.TestService
+import com.sd.demo.service.utils.TestService0
 import com.sd.demo.service.utils.TestService1
 import com.sd.demo.service.utils.TestService2
-import com.sd.demo.service.utils.TestServiceImpl11
-import com.sd.demo.service.utils.TestServiceImpl12
+import com.sd.demo.service.utils.TestServiceImpl
+import com.sd.demo.service.utils.TestServiceImpl01
+import com.sd.demo.service.utils.TestServiceImpl02
 import com.sd.demo.service.utils.TestServiceImplAbstract
 import com.sd.demo.service.utils.TestServiceImplInterface
 import com.sd.demo.service.utils.TestServiceImplMultiService
+import com.sd.demo.service.utils.TestServiceImplName
 import com.sd.demo.service.utils.TestServiceImplNoAnnotation
 import com.sd.demo.service.utils.TestServiceImplNoService
 import com.sd.lib.service.FService
 import com.sd.lib.service.FServiceImpl
+import com.sd.lib.service.fs
 import com.sd.lib.service.fsRegister
 import org.junit.Assert.assertEquals
 import org.junit.Test
@@ -74,16 +79,24 @@ class ServiceTest {
 
     @Test
     fun registerMultiTimes() {
-        fsRegister<TestServiceImpl11>()
-        fsRegister<TestServiceImpl11>()
+        fsRegister<TestServiceImpl01>()
+        fsRegister<TestServiceImpl01>()
         runCatching {
-            fsRegister<TestServiceImpl12>()
+            fsRegister<TestServiceImpl02>()
         }.let { result ->
             val exception = result.exceptionOrNull() as IllegalArgumentException
             assertEquals(
-                "Implementation of ${TestService1::class.java.name} with name() has been mapped to ${TestServiceImpl11::class.java.name}",
+                "Implementation of ${TestService0::class.java.name} with name() has been mapped to ${TestServiceImpl01::class.java.name}",
                 exception.message
             )
         }
+    }
+
+    @Test
+    fun get() {
+        fsRegister<TestServiceImpl>()
+        fsRegister<TestServiceImplName>()
+        assertEquals(true, fs<TestService>() is TestServiceImpl)
+        assertEquals(true, fs<TestService>("name") is TestServiceImplName)
     }
 }
