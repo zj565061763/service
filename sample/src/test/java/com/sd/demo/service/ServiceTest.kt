@@ -1,7 +1,10 @@
 package com.sd.demo.service
 
+import com.sd.demo.service.utils.TestService1
+import com.sd.demo.service.utils.TestService2
 import com.sd.demo.service.utils.TestServiceImplAbstract
 import com.sd.demo.service.utils.TestServiceImplInterface
+import com.sd.demo.service.utils.TestServiceImplMultiService
 import com.sd.demo.service.utils.TestServiceImplNoService
 import com.sd.lib.service.FService
 import com.sd.lib.service.fsRegister
@@ -34,6 +37,19 @@ class ServiceTest {
             val exception = result.exceptionOrNull() as IllegalArgumentException
             assertEquals(
                 "Interface marked with annotation @${FService::class.java.simpleName} was not found in ${TestServiceImplNoService::class.java.name} super types",
+                exception.message
+            )
+        }
+    }
+
+    @Test
+    fun registerMultiService() {
+        runCatching {
+            fsRegister<TestServiceImplMultiService>()
+        }.let { result ->
+            val exception = result.exceptionOrNull() as IllegalArgumentException
+            assertEquals(
+                "More than one service interface present in ${TestServiceImplMultiService::class.java.name} (${TestService1::class.java.name}) (${TestService2::class.java.name})",
                 exception.message
             )
         }

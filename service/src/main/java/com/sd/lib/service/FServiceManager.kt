@@ -91,7 +91,7 @@ private fun findServiceInterface(source: Class<*>): Class<*> {
                 if (ret == null) {
                     ret = item
                 } else {
-                    error("More than one service interface present in ${source.name} (${ret.name}) (${item.name})")
+                    throw IllegalArgumentException("More than one service interface present in ${source.name} (${ret.name}) (${item.name})")
                 }
             }
         }

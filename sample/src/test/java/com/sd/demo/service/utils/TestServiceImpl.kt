@@ -12,7 +12,7 @@ abstract class TestServiceImplAbstract : TestService1
 class TestServiceImplNoService
 
 @FServiceImpl
-class TestServiceImplMulti : TestService1, TestService2
+class TestServiceImplMultiService : TestService1, TestService2
 
 @FServiceImpl
 class TestServiceImpl11 : TestService1
