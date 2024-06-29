@@ -82,6 +82,7 @@ class ServiceTest {
     @Test
     fun registerMultiTimes() {
         fsRegister<TestServiceImpl11>()
+        fsRegister<TestServiceImpl11>()
         runCatching {
             fsRegister<TestServiceImpl12>()
         }.let { result ->
