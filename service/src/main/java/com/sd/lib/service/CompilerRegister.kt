@@ -33,7 +33,7 @@ internal fun registerFromCompiler(serviceInterface: Class<*>) {
                 e.printStackTrace()
                 continue
             }
-            FServiceManager.register(serviceImpl)
+            FServiceManager.registerImpl(serviceImpl)
         }
     }
 }

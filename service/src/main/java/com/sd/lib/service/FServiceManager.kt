@@ -33,7 +33,7 @@ object FServiceManager {
      * 注册实现类
      */
     @JvmStatic
-    fun register(serviceImpl: Class<*>) {
+    fun registerImpl(serviceImpl: Class<*>) {
         serviceImpl.run {
             require(!Modifier.isInterface(modifiers)) { "serviceImpl should not be an interface" }
             require(!Modifier.isAbstract(modifiers)) { "serviceImpl should not be abstract" }
