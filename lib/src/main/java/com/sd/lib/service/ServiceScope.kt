@@ -92,7 +92,7 @@ private fun findInterfaces(source: Class<*>): Collection<Class<*>> {
 
     return collection.also {
         require(it.isNotEmpty()) {
-            "Interface was not found in ${source::class.java.name}"
+            "Interface was not found in ${source.name}"
         }
     }
 }
