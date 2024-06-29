@@ -17,3 +17,10 @@ annotation class FServiceImpl(
 inline fun <reified T> fs(name: String = ""): T {
     return FServiceManager.get(T::class.java, name)
 }
+
+/**
+ * 创建[T]的实现类对象
+ */
+inline fun <reified T> fsRegister() {
+    return FServiceManager.registerImpl(T::class.java)
+}
