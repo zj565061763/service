@@ -4,7 +4,7 @@ import android.os.Build
 import java.lang.reflect.Modifier
 
 object FServiceManager {
-    private val _implHolder: MutableMap<Class<*>, MutableMap<String, ServiceImplConfig>> = hashMapOf()
+    private val _implHolder: MutableMap<Class<*>, MutableMap<String, ServiceImplConfig>> = mutableMapOf()
 
     /**
      * 获取[serviceInterface]接口名称为[name]的实现类对象
@@ -38,12 +38,12 @@ object FServiceManager {
             require(!Modifier.isInterface(modifiers)) { "serviceImpl should not be an interface" }
             require(!Modifier.isAbstract(modifiers)) { "serviceImpl should not be abstract" }
         }
+
         val implAnnotation = serviceImpl.requireAnnotation(FServiceImpl::class.java)
         val serviceInterface = findServiceInterface(serviceImpl)
+
         synchronized(this@FServiceManager) {
-            val holder = _implHolder[serviceInterface] ?: hashMapOf<String, ServiceImplConfig>().also {
-                _implHolder[serviceInterface] = it
-            }
+            val holder = _implHolder.getOrPut(serviceInterface) { mutableMapOf() }
 
             val config = holder[implAnnotation.name]
             if (config != null) {
