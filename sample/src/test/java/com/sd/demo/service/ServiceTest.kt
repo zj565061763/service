@@ -4,6 +4,7 @@ import com.sd.demo.service.utils.TestService
 import com.sd.demo.service.utils.TestService0
 import com.sd.demo.service.utils.TestService1
 import com.sd.demo.service.utils.TestService2
+import com.sd.demo.service.utils.TestService999
 import com.sd.demo.service.utils.TestServiceImpl
 import com.sd.demo.service.utils.TestServiceImpl01
 import com.sd.demo.service.utils.TestServiceImpl02
@@ -93,20 +94,47 @@ class ServiceTest {
     }
 
     @Test
-    fun get() {
+    fun getInterface() {
         runCatching {
             fs<TestServiceImpl>()
-        }.let { result->
+        }.let { result ->
             val exception = result.exceptionOrNull() as IllegalArgumentException
             assertEquals(
                 "Require interface class",
                 exception.message
             )
         }
+    }
 
+    @Test
+    fun getNoRegister() {
+        runCatching {
+            fs<TestService999>()
+        }.let { result ->
+            val exception = result.exceptionOrNull() as IllegalStateException
+            assertEquals(
+                "Implementation of ${TestService999::class.java.name} was not found",
+                exception.message
+            )
+        }
+    }
+
+    @Test
+    fun get() {
         fsRegister<TestServiceImpl>()
         fsRegister<TestServiceImplName>()
+
         assertEquals(true, fs<TestService>() is TestServiceImpl)
         assertEquals(true, fs<TestService>("name") is TestServiceImplName)
+
+        runCatching {
+            fs<TestService>("123")
+        }.let { result ->
+            val exception = result.exceptionOrNull() as IllegalStateException
+            assertEquals(
+                "Implementation of ${TestService::class.java.name} with name(123) was not found",
+                exception.message
+            )
+        }
     }
 }

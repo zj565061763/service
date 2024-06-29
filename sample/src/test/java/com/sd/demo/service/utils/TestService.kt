@@ -21,3 +21,8 @@ interface TestService1 {
 interface TestService2 {
     fun method2(): String = "2"
 }
+
+@FService
+interface TestService999 {
+    fun method2(): String = "999"
+}
