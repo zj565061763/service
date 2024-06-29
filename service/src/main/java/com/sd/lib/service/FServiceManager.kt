@@ -42,7 +42,7 @@ object FServiceManager {
         val implAnnotation = serviceImpl.requireAnnotation(FServiceImpl::class.java)
         val serviceInterface = findServiceInterface(serviceImpl)
 
-        synchronized(this@FServiceManager) {
+        synchronized(FServiceManager) {
             val holder = _implHolder.getOrPut(serviceInterface) { mutableMapOf() }
 
             val config = holder[implAnnotation.name]
