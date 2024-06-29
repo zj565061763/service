@@ -98,7 +98,7 @@ private fun findServiceInterface(source: Class<*>): Class<*> {
         current = current.superclass ?: break
     }
 
-    return checkNotNull(ret) {
+    return requireNotNull(ret) {
         "Interface marked with annotation @${FService::class.java.simpleName} was not found in ${source.name} super types"
     }
 }

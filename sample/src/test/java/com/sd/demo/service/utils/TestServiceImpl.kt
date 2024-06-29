@@ -9,6 +9,9 @@ interface TestServiceImplInterface : TestService1
 abstract class TestServiceImplAbstract : TestService1
 
 @FServiceImpl
+class TestServiceImplNoService
+
+@FServiceImpl
 class TestServiceImplMulti : TestService1, TestService2
 
 @FServiceImpl
