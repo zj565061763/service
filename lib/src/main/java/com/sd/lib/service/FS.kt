@@ -35,7 +35,7 @@ object FS {
      */
     @JvmOverloads
     @JvmStatic
-    fun <T : Any> setFactory(
+    fun <T : Any> factory(
         clazz: Class<T>,
         name: String = "",
         singleton: Boolean = false,

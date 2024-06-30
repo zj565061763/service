@@ -137,8 +137,8 @@ class ServiceTest {
 
     @Test
     fun testFactory() {
-        FS.setFactory(TestService1::class.java) { TestServiceImplMultiService() }
-        FS.setFactory(TestService2::class.java) { TestServiceImplMultiService() }
+        FS.factory(TestService1::class.java) { TestServiceImplMultiService() }
+        FS.factory(TestService2::class.java) { TestServiceImplMultiService() }
 
         assertEquals(true, fs<TestService1>() is TestServiceImplMultiService)
         assertEquals(true, fs<TestService2>() is TestServiceImplMultiService)
