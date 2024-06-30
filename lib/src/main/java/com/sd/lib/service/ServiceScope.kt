@@ -99,16 +99,16 @@ private fun findInterfaces(source: Class<*>): Collection<Class<*>> {
     }
 }
 
-private fun <T : Annotation> Class<*>.requireAnnotation(clazz: Class<T>): T {
-    return requireNotNull(getAnnotationCompat(clazz)) {
-        "Annotation ${clazz.simpleName} was not found in ${this.name}"
+private fun <T : Annotation> Class<*>.requireAnnotation(annotation: Class<T>): T {
+    return requireNotNull(getAnnotationCompat(annotation)) {
+        "Annotation ${annotation.simpleName} was not found in ${this.name}"
     }
 }
 
-private fun <T : Annotation> Class<*>.getAnnotationCompat(clazz: Class<T>): T? {
+private fun <T : Annotation> Class<*>.getAnnotationCompat(annotation: Class<T>): T? {
     return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-        getDeclaredAnnotation(clazz)
+        getDeclaredAnnotation(annotation)
     } else {
-        getAnnotation(clazz)
+        getAnnotation(annotation)
     }
 }
