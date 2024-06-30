@@ -59,7 +59,7 @@ class ServiceTest {
         }.let { result ->
             val exception = result.exceptionOrNull() as IllegalArgumentException
             assertEquals(
-                "Interface was not found in ${TestServiceImplNoInterface::class.java.name}",
+                "No interface was found in ${TestServiceImplNoInterface::class.java.name}",
                 exception.message
             )
         }
@@ -97,7 +97,7 @@ class ServiceTest {
         }.let { result ->
             val exception = result.exceptionOrNull() as IllegalStateException
             assertEquals(
-                "Service (${TestService999::class.java.name}) was not found",
+                "Service (${TestService999::class.java.name}) not found",
                 exception.message
             )
         }
@@ -110,7 +110,7 @@ class ServiceTest {
         }.let { result ->
             val exception = result.exceptionOrNull() as IllegalStateException
             assertEquals(
-                "Service (${TestService999::class.java.name}) with name (999) was not found",
+                "Service (${TestService999::class.java.name}) with name (999) not found",
                 exception.message
             )
         }

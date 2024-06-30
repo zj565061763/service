@@ -13,8 +13,8 @@ internal class ServiceScope {
         service: Class<T>,
         name: String,
     ): T {
-        val serviceHolder = _holder[service] ?: error("Service (${service.name}) was not found")
-        val serviceInfo = serviceHolder[name] ?: error("Service (${service.name}) with name ($name) was not found")
+        val serviceHolder = _holder[service] ?: error("Service (${service.name}) not found")
+        val serviceInfo = serviceHolder[name] ?: error("Service (${service.name}) with name ($name) not found")
         @Suppress("UNCHECKED_CAST")
         return serviceInfo.getService() as T
     }
@@ -94,7 +94,7 @@ private fun findInterfaces(source: Class<*>): Collection<Class<*>> {
 
     return collection.also {
         require(it.isNotEmpty()) {
-            "Interface was not found in ${source.name}"
+            "No interface was found in ${source.name}"
         }
     }
 }
