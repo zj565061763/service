@@ -8,7 +8,7 @@ annotation class FService(
 )
 
 /**
- * 创建[T]的实现类对象
+ * 获取名称为[name]的[T]对象
  */
 inline fun <reified T> fs(name: String = ""): T {
     return FS.get(T::class.java, name)
