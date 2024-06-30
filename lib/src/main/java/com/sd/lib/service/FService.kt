@@ -21,21 +21,3 @@ inline fun <reified T> fs(name: String = ""): T {
 inline fun <reified T> fsRegister() {
     FS.register(T::class.java)
 }
-
-/**
- * 设置[T]对应的工厂[factory]
- * @param name 实例的名称
- * @param singleton 是否单例
- */
-inline fun <reified T : Any> fsSetFactory(
-    name: String = "",
-    singleton: Boolean = false,
-    noinline factory: () -> T,
-) {
-    FS.setFactory(
-        clazz = T::class.java,
-        name = name,
-        singleton = singleton,
-        factory = factory,
-    )
-}

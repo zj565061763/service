@@ -2,6 +2,8 @@ package com.sd.demo.service
 
 import com.sd.demo.service.utils.TestService
 import com.sd.demo.service.utils.TestService0
+import com.sd.demo.service.utils.TestService1
+import com.sd.demo.service.utils.TestService2
 import com.sd.demo.service.utils.TestService999
 import com.sd.demo.service.utils.TestServiceImpl
 import com.sd.demo.service.utils.TestServiceImpl01
@@ -9,10 +11,12 @@ import com.sd.demo.service.utils.TestServiceImpl02
 import com.sd.demo.service.utils.TestServiceImpl999
 import com.sd.demo.service.utils.TestServiceImplAbstract
 import com.sd.demo.service.utils.TestServiceImplInterface
+import com.sd.demo.service.utils.TestServiceImplMultiService
 import com.sd.demo.service.utils.TestServiceImplName
 import com.sd.demo.service.utils.TestServiceImplNoAnnotation
 import com.sd.demo.service.utils.TestServiceImplNoInterface
 import com.sd.demo.service.utils.TestServiceImplSingleton
+import com.sd.lib.service.FS
 import com.sd.lib.service.FService
 import com.sd.lib.service.fs
 import com.sd.lib.service.fsRegister
@@ -21,7 +25,7 @@ import org.junit.Test
 
 class ServiceTest {
     @Test
-    fun register() {
+    fun testRegister() {
         // no annotation
         runCatching {
             fsRegister<TestServiceImplNoAnnotation>()
@@ -62,7 +66,7 @@ class ServiceTest {
     }
 
     @Test
-    fun registerMultiTimes() {
+    fun testRegisterMultiTimes() {
         fsRegister<TestServiceImpl01>()
 
         runCatching {
@@ -87,7 +91,7 @@ class ServiceTest {
     }
 
     @Test
-    fun getNoRegister() {
+    fun testGetNoRegister() {
         runCatching {
             fs<TestService999>()
         }.let { result ->
@@ -113,7 +117,7 @@ class ServiceTest {
     }
 
     @Test
-    fun get() {
+    fun testGet() {
         fsRegister<TestServiceImpl>()
         fsRegister<TestServiceImplName>()
         fsRegister<TestServiceImplSingleton>()
@@ -129,5 +133,14 @@ class ServiceTest {
 
         assertEquals(true, fs<TestService>() !== fs<TestService>("name"))
         assertEquals(true, fs<TestService>() !== fs<TestService>("singleton"))
+    }
+
+    @Test
+    fun testFactory() {
+        FS.setFactory(TestService1::class.java) { TestServiceImplMultiService() }
+        FS.setFactory(TestService2::class.java) { TestServiceImplMultiService() }
+
+        assertEquals(true, fs<TestService1>() is TestServiceImplMultiService)
+        assertEquals(true, fs<TestService2>() is TestServiceImplMultiService)
     }
 }
