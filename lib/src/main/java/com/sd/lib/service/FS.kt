@@ -42,7 +42,7 @@ object FS {
         factory: () -> T,
     ) {
         synchronized(FS) {
-            _scope.setFactory(
+            _scope.factory(
                 service = service,
                 name = name,
                 singleton = singleton,

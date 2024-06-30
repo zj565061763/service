@@ -27,7 +27,7 @@ internal class ServiceScope {
         val annotation = service.requireAnnotation(FService::class.java)
         findInterfaces(service).forEach {
             @Suppress("UNCHECKED_CAST")
-            setFactory(
+            factory(
                 service = it as Class<Any>,
                 name = annotation.name,
                 singleton = annotation.singleton,
@@ -41,7 +41,7 @@ internal class ServiceScope {
      * @param name 实例的名称
      * @param singleton 是否单例
      */
-    fun <T : Any> setFactory(
+    fun <T : Any> factory(
         service: Class<T>,
         name: String,
         singleton: Boolean,
