@@ -19,5 +19,23 @@ inline fun <reified T> fs(name: String = ""): T {
  * 当外部获取接口实例时，会调用[T]的无参构造方法创建对象返回
  */
 inline fun <reified T> fsRegister() {
-    return FS.register(T::class.java)
+    FS.register(T::class.java)
+}
+
+/**
+ * 设置[T]对应的工厂[factory]
+ * @param name 实例的名称
+ * @param singleton 是否单例
+ */
+inline fun <reified T : Any> fsSetFactory(
+    name: String = "",
+    singleton: Boolean = false,
+    noinline factory: () -> T,
+) {
+    FS.setFactory(
+        clazz = T::class.java,
+        name = name,
+        singleton = singleton,
+        factory = factory,
+    )
 }

@@ -30,6 +30,8 @@ object FS {
 
     /**
      * 设置[clazz]对应的工厂[factory]
+     * @param name 实例的名称
+     * @param singleton 是否单例
      */
     @JvmOverloads
     @JvmStatic
