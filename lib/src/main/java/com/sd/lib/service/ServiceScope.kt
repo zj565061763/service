@@ -20,7 +20,8 @@ internal class ServiceScope {
     }
 
     /**
-     * 注册
+     * 注册[service]，并把[service]和他所有实现的接口绑定，
+     * 当外部获取接口实例时，会调用[service]的无参构造方法创建对象返回
      */
     fun register(service: Class<*>) {
         val annotation = service.requireAnnotation(FService::class.java)
