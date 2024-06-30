@@ -23,7 +23,9 @@ internal class ServiceScope {
      * 当外部获取接口实例时，会调用[service]的无参构造方法创建对象返回
      */
     fun register(service: Class<*>) {
-        val annotation = service.requireAnnotation(FService::class.java)
+        val annotation = requireNotNull(service.getAnnotation(FService::class.java)) {
+            "Annotation ${FService::class.java.simpleName} was not found in ${service.name}"
+        }
         findInterfaces(service).forEach {
             @Suppress("UNCHECKED_CAST")
             factory(
@@ -95,11 +97,5 @@ private fun findInterfaces(source: Class<*>): Collection<Class<*>> {
         require(it.isNotEmpty()) {
             "No interface was found in ${source.name}"
         }
-    }
-}
-
-private fun <T : Annotation> Class<*>.requireAnnotation(annotation: Class<T>): T {
-    return requireNotNull(getAnnotation(annotation)) {
-        "Annotation ${annotation.simpleName} was not found in ${this.name}"
     }
 }
