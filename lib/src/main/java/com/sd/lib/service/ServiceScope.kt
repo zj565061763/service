@@ -27,9 +27,8 @@ internal class ServiceScope {
         val annotation = service.requireAnnotation(FService::class.java)
         findInterfaces(service).forEach {
             @Suppress("UNCHECKED_CAST")
-            val clazz = it as Class<Any>
             setFactory(
-                clazz = clazz,
+                service = it as Class<Any>,
                 name = annotation.name,
                 singleton = annotation.singleton,
                 factory = { service.getDeclaredConstructor().newInstance() }
@@ -38,21 +37,21 @@ internal class ServiceScope {
     }
 
     /**
-     * 设置[clazz]对应的工厂[factory]
+     * 设置[service]对应的工厂[factory]
      * @param name 实例的名称
      * @param singleton 是否单例
      */
     fun <T : Any> setFactory(
-        clazz: Class<T>,
+        service: Class<T>,
         name: String,
         singleton: Boolean,
         factory: () -> T,
     ) {
-        val serviceHolder = _holder.getOrPut(clazz) { mutableMapOf() }
+        val serviceHolder = _holder.getOrPut(service) { mutableMapOf() }
 
         val serviceInfo = serviceHolder[name]
         if (serviceInfo != null) {
-            error("Factory of ${clazz.name} with name (${name}) already exist")
+            error("Factory of ${service.name} with name (${name}) already exist")
         }
 
         serviceHolder[name] = ServiceInfo(

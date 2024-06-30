@@ -29,21 +29,21 @@ object FS {
     }
 
     /**
-     * 设置[clazz]对应的工厂[factory]
+     * 设置[service]对应的工厂[factory]
      * @param name 实例的名称
      * @param singleton 是否单例
      */
     @JvmOverloads
     @JvmStatic
     fun <T : Any> factory(
-        clazz: Class<T>,
+        service: Class<T>,
         name: String = "",
         singleton: Boolean = false,
         factory: () -> T,
     ) {
         synchronized(FS) {
             _scope.setFactory(
-                clazz = clazz,
+                service = service,
                 name = name,
                 singleton = singleton,
                 factory = factory,
