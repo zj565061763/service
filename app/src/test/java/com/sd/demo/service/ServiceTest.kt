@@ -18,8 +18,7 @@ import com.sd.demo.service.utils.TestServiceImplNoInterface
 import com.sd.demo.service.utils.TestServiceImplSingleton
 import com.sd.lib.service.FS
 import com.sd.lib.service.FService
-import com.sd.lib.service.fs
-import com.sd.lib.service.fsRegister
+import com.sd.lib.service.fsGet
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
@@ -28,7 +27,7 @@ class ServiceTest {
     fun testRegister() {
         // no annotation
         runCatching {
-            fsRegister<TestServiceImplNoAnnotation>()
+            FS.register(TestServiceImplNoAnnotation::class.java)
         }.let { result ->
             val exception = result.exceptionOrNull() as IllegalArgumentException
             assertEquals(
@@ -39,7 +38,7 @@ class ServiceTest {
 
         // is interface
         runCatching {
-            fsRegister<TestServiceImplInterface>()
+            FS.register(TestServiceImplInterface::class.java)
         }.let { result ->
             val exception = result.exceptionOrNull() as IllegalArgumentException
             assertEquals("${TestServiceImplInterface::class.java.name} is interface", exception.message)
@@ -47,7 +46,7 @@ class ServiceTest {
 
         // is abstract
         runCatching {
-            fsRegister<TestServiceImplAbstract>()
+            FS.register(TestServiceImplAbstract::class.java)
         }.let { result ->
             val exception = result.exceptionOrNull() as IllegalArgumentException
             assertEquals("${TestServiceImplAbstract::class.java.name} is abstract", exception.message)
@@ -55,7 +54,7 @@ class ServiceTest {
 
         // no interface
         runCatching {
-            fsRegister<TestServiceImplNoInterface>()
+            FS.register(TestServiceImplNoInterface::class.java)
         }.let { result ->
             val exception = result.exceptionOrNull() as IllegalArgumentException
             assertEquals(
@@ -67,10 +66,10 @@ class ServiceTest {
 
     @Test
     fun testRegisterMultiTimes() {
-        fsRegister<TestServiceImpl01>()
+        FS.register(TestServiceImpl01::class.java)
 
         runCatching {
-            fsRegister<TestServiceImpl01>()
+            FS.register(TestServiceImpl01::class.java)
         }.let { result ->
             val exception = result.exceptionOrNull() as IllegalStateException
             assertEquals(
@@ -80,7 +79,7 @@ class ServiceTest {
         }
 
         runCatching {
-            fsRegister<TestServiceImpl02>()
+            FS.register(TestServiceImpl02::class.java)
         }.let { result ->
             val exception = result.exceptionOrNull() as IllegalStateException
             assertEquals(
@@ -93,7 +92,7 @@ class ServiceTest {
     @Test
     fun testGetNoRegister() {
         runCatching {
-            fs<TestService999>()
+            fsGet<TestService999>()
         }.let { result ->
             val exception = result.exceptionOrNull() as IllegalStateException
             assertEquals(
@@ -102,11 +101,11 @@ class ServiceTest {
             )
         }
 
-        fsRegister<TestServiceImpl999>()
-        fs<TestService999>()
+        FS.register(TestServiceImpl999::class.java)
+        fsGet<TestService999>()
 
         runCatching {
-            fs<TestService999>("999")
+            fsGet<TestService999>("999")
         }.let { result ->
             val exception = result.exceptionOrNull() as IllegalStateException
             assertEquals(
@@ -118,21 +117,21 @@ class ServiceTest {
 
     @Test
     fun testGet() {
-        fsRegister<TestServiceImpl>()
-        fsRegister<TestServiceImplName>()
-        fsRegister<TestServiceImplSingleton>()
+        FS.register(TestServiceImpl::class.java)
+        FS.register(TestServiceImplName::class.java)
+        FS.register(TestServiceImplSingleton::class.java)
 
-        assertEquals(true, fs<TestService>() is TestServiceImpl)
-        assertEquals(true, fs<TestService>() !== fs<TestService>())
+        assertEquals(true, fsGet<TestService>() is TestServiceImpl)
+        assertEquals(true, fsGet<TestService>() !== fsGet<TestService>())
 
-        assertEquals(true, fs<TestService>("name") is TestServiceImplName)
-        assertEquals(true, fs<TestService>("name") !== fs<TestService>("name"))
+        assertEquals(true, fsGet<TestService>("name") is TestServiceImplName)
+        assertEquals(true, fsGet<TestService>("name") !== fsGet<TestService>("name"))
 
-        assertEquals(true, fs<TestService>("singleton") is TestServiceImplSingleton)
-        assertEquals(true, fs<TestService>("singleton") === fs<TestService>("singleton"))
+        assertEquals(true, fsGet<TestService>("singleton") is TestServiceImplSingleton)
+        assertEquals(true, fsGet<TestService>("singleton") === fsGet<TestService>("singleton"))
 
-        assertEquals(true, fs<TestService>() !== fs<TestService>("name"))
-        assertEquals(true, fs<TestService>() !== fs<TestService>("singleton"))
+        assertEquals(true, fsGet<TestService>() !== fsGet<TestService>("name"))
+        assertEquals(true, fsGet<TestService>() !== fsGet<TestService>("singleton"))
     }
 
     @Test
@@ -140,7 +139,7 @@ class ServiceTest {
         FS.factory(TestService1::class.java) { TestServiceImplMultiService() }
         FS.factory(TestService2::class.java) { TestServiceImplMultiService() }
 
-        assertEquals(true, fs<TestService1>() is TestServiceImplMultiService)
-        assertEquals(true, fs<TestService2>() is TestServiceImplMultiService)
+        assertEquals(true, fsGet<TestService1>() is TestServiceImplMultiService)
+        assertEquals(true, fsGet<TestService2>() is TestServiceImplMultiService)
     }
 }
