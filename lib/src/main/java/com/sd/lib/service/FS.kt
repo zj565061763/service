@@ -6,8 +6,8 @@ object FS {
     /**
      * 获取名称为[name]的[service]对象
      */
-    @JvmStatic
     @JvmOverloads
+    @JvmStatic
     fun <T> get(
         service: Class<T>,
         name: String = "",
