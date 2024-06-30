@@ -1,6 +1,5 @@
 package com.sd.lib.service
 
-import android.os.Build
 import java.lang.reflect.Modifier
 
 internal class ServiceScope {
@@ -100,15 +99,7 @@ private fun findInterfaces(source: Class<*>): Collection<Class<*>> {
 }
 
 private fun <T : Annotation> Class<*>.requireAnnotation(annotation: Class<T>): T {
-    return requireNotNull(getAnnotationCompat(annotation)) {
+    return requireNotNull(getAnnotation(annotation)) {
         "Annotation ${annotation.simpleName} was not found in ${this.name}"
-    }
-}
-
-private fun <T : Annotation> Class<*>.getAnnotationCompat(annotation: Class<T>): T? {
-    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-        getDeclaredAnnotation(annotation)
-    } else {
-        getAnnotation(annotation)
     }
 }
