@@ -22,7 +22,10 @@ internal class ServiceScope {
      * 注册[service]，并把[service]和他所有实现的接口绑定，
      * 当外部获取接口实例时，会调用[service]的无参构造方法创建对象返回
      */
-    fun register(service: Class<*>) {
+    fun register(
+        service: Class<*>,
+        factoryMode: FactoryMode,
+    ) {
         val annotation = requireNotNull(service.getAnnotation(FService::class.java)) {
             "Annotation ${FService::class.java.simpleName} was not found in ${service.name}"
         }
@@ -32,6 +35,7 @@ internal class ServiceScope {
                 service = it as Class<Any>,
                 name = annotation.name,
                 singleton = annotation.singleton,
+                factoryMode = factoryMode,
                 factory = { service.getDeclaredConstructor().newInstance() }
             )
         }
@@ -46,13 +50,27 @@ internal class ServiceScope {
         service: Class<T>,
         name: String,
         singleton: Boolean,
+        factoryMode: FactoryMode,
         factory: () -> T,
     ) {
         val serviceHolder = _holder.getOrPut(service) { mutableMapOf() }
 
-        val serviceInfo = serviceHolder[name]
-        if (serviceInfo != null) {
-            error("Factory of ${service.name} with name (${name}) already exist")
+        when (factoryMode) {
+            FactoryMode.ThrowIfExist -> {
+                if (serviceHolder.containsKey(name)) {
+                    error("Factory of ${service.name} with name (${name}) already exist")
+                }
+            }
+
+            FactoryMode.CancelIfExist -> {
+                if (serviceHolder.containsKey(name)) {
+                    return
+                }
+            }
+
+            FactoryMode.Override -> {
+
+            }
         }
 
         serviceHolder[name] = ServiceInfo(
@@ -60,6 +78,17 @@ internal class ServiceScope {
             factory = factory,
         )
     }
+}
+
+enum class FactoryMode {
+    /** 如果存在则抛异常 */
+    ThrowIfExist,
+
+    /** 如果存在则取消 */
+    CancelIfExist,
+
+    /** 覆盖 */
+    Override,
 }
 
 private class ServiceInfo(

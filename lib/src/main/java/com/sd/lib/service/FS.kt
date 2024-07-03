@@ -21,10 +21,14 @@ object FS {
      * 注册[service]，并把[service]和他所有实现的接口绑定，
      * 当外部获取接口实例时，会调用[service]的无参构造方法创建对象返回
      */
+    @JvmOverloads
     @JvmStatic
-    fun register(service: Class<*>) {
+    fun register(
+        service: Class<*>,
+        factoryMode: FactoryMode = FactoryMode.ThrowIfExist,
+    ) {
         synchronized(FS) {
-            _scope.register(service)
+            _scope.register(service, factoryMode)
         }
     }
 
@@ -39,6 +43,7 @@ object FS {
         service: Class<T>,
         name: String = "",
         singleton: Boolean = false,
+        factoryMode: FactoryMode = FactoryMode.ThrowIfExist,
         factory: () -> T,
     ) {
         synchronized(FS) {
@@ -46,6 +51,7 @@ object FS {
                 service = service,
                 name = name,
                 singleton = singleton,
+                factoryMode = factoryMode,
                 factory = factory,
             )
         }
