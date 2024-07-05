@@ -56,20 +56,16 @@ internal class ServiceScope {
         val serviceHolder = _holder.getOrPut(service) { mutableMapOf() }
 
         when (factoryMode) {
-            FactoryMode.ThrowIfExist -> {
-                if (serviceHolder.containsKey(name)) {
-                    error("Factory of ${service.name} with name (${name}) already exist")
-                }
-            }
-
+            FactoryMode.Override -> {}
             FactoryMode.CancelIfExist -> {
                 if (serviceHolder.containsKey(name)) {
                     return
                 }
             }
-
-            FactoryMode.Override -> {
-
+            FactoryMode.ThrowIfExist -> {
+                if (serviceHolder.containsKey(name)) {
+                    error("Factory of ${service.name} with name (${name}) already exist")
+                }
             }
         }
 
@@ -81,14 +77,14 @@ internal class ServiceScope {
 }
 
 enum class FactoryMode {
-    /** 如果存在则抛异常 */
-    ThrowIfExist,
+    /** 覆盖 */
+    Override,
 
     /** 如果存在则取消 */
     CancelIfExist,
 
-    /** 覆盖 */
-    Override,
+    /** 如果存在则抛异常 */
+    ThrowIfExist,
 }
 
 private class ServiceInfo(

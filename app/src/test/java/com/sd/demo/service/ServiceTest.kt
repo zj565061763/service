@@ -18,6 +18,7 @@ import com.sd.demo.service.utils.TestServiceImplNoInterface
 import com.sd.demo.service.utils.TestServiceImplSingleton
 import com.sd.lib.service.FS
 import com.sd.lib.service.FService
+import com.sd.lib.service.FactoryMode
 import com.sd.lib.service.fsGet
 import org.junit.Assert.assertEquals
 import org.junit.Test
@@ -67,9 +68,10 @@ class ServiceTest {
     @Test
     fun testRegisterMultiTimes() {
         FS.register(TestServiceImpl01::class.java)
+        FS.register(TestServiceImpl01::class.java)
 
         runCatching {
-            FS.register(TestServiceImpl01::class.java)
+            FS.register(TestServiceImpl01::class.java, factoryMode = FactoryMode.ThrowIfExist)
         }.let { result ->
             val exception = result.exceptionOrNull() as IllegalStateException
             assertEquals(
@@ -78,15 +80,8 @@ class ServiceTest {
             )
         }
 
-        runCatching {
-            FS.register(TestServiceImpl02::class.java)
-        }.let { result ->
-            val exception = result.exceptionOrNull() as IllegalStateException
-            assertEquals(
-                "Factory of ${TestService0::class.java.name} with name () already exist",
-                exception.message
-            )
-        }
+        FS.register(TestServiceImpl02::class.java, factoryMode = FactoryMode.CancelIfExist)
+        assertEquals(true, fsGet<TestService0>() is TestServiceImpl01)
     }
 
     @Test
