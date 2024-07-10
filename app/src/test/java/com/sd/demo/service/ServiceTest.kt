@@ -15,7 +15,7 @@ import com.sd.demo.service.utils.TestServiceImplMultiService
 import com.sd.demo.service.utils.TestServiceImplName
 import com.sd.demo.service.utils.TestServiceImplNoAnnotation
 import com.sd.demo.service.utils.TestServiceImplNoInterface
-import com.sd.demo.service.utils.TestServiceImplSingleton
+import com.sd.demo.service.utils.TestServiceImplNoneSingleton
 import com.sd.lib.service.FS
 import com.sd.lib.service.FService
 import com.sd.lib.service.FactoryMode
@@ -114,19 +114,19 @@ class ServiceTest {
     fun testGet() {
         FS.register(TestServiceImpl::class.java)
         FS.register(TestServiceImplName::class.java)
-        FS.register(TestServiceImplSingleton::class.java)
+        FS.register(TestServiceImplNoneSingleton::class.java)
 
         assertEquals(true, fsGet<TestService>() is TestServiceImpl)
-        assertEquals(true, fsGet<TestService>() !== fsGet<TestService>())
+        assertEquals(true, fsGet<TestService>() === fsGet<TestService>())
 
         assertEquals(true, fsGet<TestService>("name") is TestServiceImplName)
-        assertEquals(true, fsGet<TestService>("name") !== fsGet<TestService>("name"))
+        assertEquals(true, fsGet<TestService>("name") === fsGet<TestService>("name"))
 
-        assertEquals(true, fsGet<TestService>("singleton") is TestServiceImplSingleton)
-        assertEquals(true, fsGet<TestService>("singleton") === fsGet<TestService>("singleton"))
+        assertEquals(true, fsGet<TestService>("NoneSingleton") is TestServiceImplNoneSingleton)
+        assertEquals(true, fsGet<TestService>("NoneSingleton") !== fsGet<TestService>("NoneSingleton"))
 
         assertEquals(true, fsGet<TestService>() !== fsGet<TestService>("name"))
-        assertEquals(true, fsGet<TestService>() !== fsGet<TestService>("singleton"))
+        assertEquals(true, fsGet<TestService>() !== fsGet<TestService>("NoneSingleton"))
     }
 
     @Test

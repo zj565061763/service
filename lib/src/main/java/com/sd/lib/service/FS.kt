@@ -42,7 +42,7 @@ object FS {
     fun <T : Any> factory(
         service: Class<T>,
         name: String = "",
-        singleton: Boolean = false,
+        singleton: Boolean = true,
         factoryMode: FactoryMode = FactoryMode.Override,
         factory: () -> T,
     ) {

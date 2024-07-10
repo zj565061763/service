@@ -7,5 +7,5 @@ annotation class FService(
     val name: String = "",
 
     /** 是否单例 */
-    val singleton: Boolean = false,
+    val singleton: Boolean = true,
 )

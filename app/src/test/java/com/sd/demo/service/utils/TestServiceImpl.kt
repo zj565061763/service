@@ -25,5 +25,5 @@ class TestServiceImplMultiService : TestService1, TestService2
 class TestServiceImpl : TestService
 @FService("name")
 class TestServiceImplName : TestService
-@FService("singleton", true)
-class TestServiceImplSingleton : TestService
+@FService("NoneSingleton", false)
+class TestServiceImplNoneSingleton : TestService
