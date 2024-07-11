@@ -6,7 +6,7 @@ plugins {
 
 val libGroupId = "com.sd.lib.android"
 val libArtifactId = "service"
-val libVersion = "1.1.0-alpha05"
+val libVersion = "1.1.0-alpha06"
 
 android {
     namespace = "com.sd.lib.service"
