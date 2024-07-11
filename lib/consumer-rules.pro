@@ -1,0 +1,2 @@
+-keep @interface com.sd.lib.service.FService
+-keep @com.sd.lib.service.FService class * {}
