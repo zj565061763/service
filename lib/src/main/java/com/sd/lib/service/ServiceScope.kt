@@ -98,25 +98,14 @@ private class ServiceInfo(
     }
 }
 
-private fun findInterfaces(source: Class<*>): Collection<Class<*>> {
-    source.run {
-        require(!Modifier.isInterface(modifiers)) { "${source.name} is interface" }
-        require(!Modifier.isAbstract(modifiers)) { "${source.name} is abstract" }
+private fun findInterfaces(impl: Class<*>): Array<Class<*>> {
+    impl.run {
+        require(!Modifier.isInterface(modifiers)) { "${impl.name} is interface" }
+        require(!Modifier.isAbstract(modifiers)) { "${impl.name} is abstract" }
     }
-
-    val collection: MutableSet<Class<*>> = mutableSetOf()
-
-    var current: Class<*> = source
-    while (true) {
-        val interfaces = current.interfaces
-        if (interfaces.isNullOrEmpty()) break
-        collection.addAll(interfaces)
-        current = current.superclass ?: break
-    }
-
-    return collection.also {
+    return impl.interfaces.also {
         require(it.isNotEmpty()) {
-            "No interface was found in ${source.name}"
+            "No interface was found in ${impl.name}"
         }
     }
 }
