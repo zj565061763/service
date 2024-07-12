@@ -56,7 +56,6 @@ internal class ServiceScope {
         val serviceHolder = _holder.getOrPut(service) { mutableMapOf() }
 
         when (factoryMode) {
-            FactoryMode.Override -> {}
             FactoryMode.CancelIfExist -> {
                 if (serviceHolder.containsKey(name)) {
                     return
@@ -77,9 +76,6 @@ internal class ServiceScope {
 }
 
 enum class FactoryMode {
-    /** 覆盖 */
-    Override,
-
     /** 如果存在则取消 */
     CancelIfExist,
 

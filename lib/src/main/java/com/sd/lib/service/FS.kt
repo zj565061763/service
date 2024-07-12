@@ -25,7 +25,7 @@ object FS {
     @JvmStatic
     fun register(
         service: Class<*>,
-        factoryMode: FactoryMode = FactoryMode.Override,
+        factoryMode: FactoryMode = FactoryMode.CancelIfExist,
     ) {
         synchronized(FS) {
             _scope.register(service, factoryMode)
@@ -43,7 +43,7 @@ object FS {
         service: Class<T>,
         name: String = "",
         singleton: Boolean = true,
-        factoryMode: FactoryMode = FactoryMode.Override,
+        factoryMode: FactoryMode = FactoryMode.CancelIfExist,
         factory: () -> T,
     ) {
         synchronized(FS) {
