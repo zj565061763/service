@@ -6,7 +6,7 @@ internal class ServiceScope {
     private val _holder: MutableMap<Class<*>, MutableMap<String, ServiceInfo>> = mutableMapOf()
 
     /**
-     * 获取名称为[name]的[service]对象
+     * 获取名称为[name]的[service]对象，如果不存在则抛异常
      */
     fun <T> get(
         service: Class<T>,
@@ -14,6 +14,19 @@ internal class ServiceScope {
     ): T {
         val serviceHolder = _holder[service] ?: error("Service (${service.name}) not found")
         val serviceInfo = serviceHolder[name] ?: error("Service (${service.name}) with name ($name) not found")
+        @Suppress("UNCHECKED_CAST")
+        return serviceInfo.getService() as T
+    }
+
+    /**
+     * 获取名称为[name]的[service]对象，如果不存在则返回null
+     */
+    fun <T> getOrNull(
+        service: Class<T>,
+        name: String,
+    ): T? {
+        val serviceHolder = _holder[service] ?: return null
+        val serviceInfo = serviceHolder[name] ?: return null
         @Suppress("UNCHECKED_CAST")
         return serviceInfo.getService() as T
     }

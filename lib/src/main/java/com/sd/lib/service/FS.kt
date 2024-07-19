@@ -4,7 +4,7 @@ object FS {
     private val _scope = ServiceScope()
 
     /**
-     * 获取名称为[name]的[service]对象
+     * 获取名称为[name]的[service]对象，如果不存在则抛异常
      */
     @JvmOverloads
     @JvmStatic
@@ -14,6 +14,20 @@ object FS {
     ): T {
         synchronized(FS) {
             return _scope.get(service, name)
+        }
+    }
+
+    /**
+     * 获取名称为[name]的[service]对象，如果不存在则返回null
+     */
+    @JvmOverloads
+    @JvmStatic
+    fun <T> getOrNull(
+        service: Class<T>,
+        name: String = "",
+    ): T? {
+        synchronized(FS) {
+            return _scope.getOrNull(service, name)
         }
     }
 
