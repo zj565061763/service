@@ -19,3 +19,7 @@ interface TestService2 {
 interface TestService999 {
     fun method2(): String = "999"
 }
+
+interface TestServiceAbsent {
+    fun method(): String = "absent"
+}

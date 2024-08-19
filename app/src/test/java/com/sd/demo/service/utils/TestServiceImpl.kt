@@ -27,3 +27,6 @@ class TestServiceImpl : TestService
 class TestServiceImplName : TestService
 @FService("NoneSingleton", false)
 class TestServiceImplNoneSingleton : TestService
+
+@FService
+class TestServiceAbsentImpl : TestServiceAbsent
