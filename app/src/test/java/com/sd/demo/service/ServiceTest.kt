@@ -91,7 +91,7 @@ class ServiceTest {
         }.let { result ->
             val exception = result.exceptionOrNull() as IllegalStateException
             assertEquals(
-                "Service (${TestService999::class.java.name}) not found",
+                "Service (${TestService999::class.java.name}) with name () not found",
                 exception.message
             )
         }
