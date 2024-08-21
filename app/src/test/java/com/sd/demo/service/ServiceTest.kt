@@ -5,8 +5,6 @@ import com.sd.demo.service.utils.TestService0
 import com.sd.demo.service.utils.TestService1
 import com.sd.demo.service.utils.TestService2
 import com.sd.demo.service.utils.TestService999
-import com.sd.demo.service.utils.TestServiceAbsent
-import com.sd.demo.service.utils.TestServiceAbsentImpl
 import com.sd.demo.service.utils.TestServiceImpl
 import com.sd.demo.service.utils.TestServiceImpl01
 import com.sd.demo.service.utils.TestServiceImpl02
@@ -138,16 +136,5 @@ class ServiceTest {
 
         assertEquals(true, fsGet<TestService1>() is TestServiceImplMultiService)
         assertEquals(true, fsGet<TestService2>() is TestServiceImplMultiService)
-    }
-
-    @Test
-    fun testAbsent() {
-        assertEquals(null, FS.getOrNull(TestServiceAbsent::class.java))
-
-        FS.setAbsentCallback { _, _ ->
-            FS.register(TestServiceAbsentImpl::class.java)
-        }
-
-        assertEquals(true, FS.getOrNull(TestServiceAbsent::class.java) is TestServiceAbsentImpl)
     }
 }

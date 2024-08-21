@@ -9,10 +9,3 @@ annotation class FService(
     /** 是否单例 */
     val singleton: Boolean = true,
 )
-
-/**
- * 服务缺席回调
- */
-fun interface FServiceAbsentCallback {
-    fun onAbsent(clazz: Class<*>, name: String)
-}

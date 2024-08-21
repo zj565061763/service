@@ -5,16 +5,6 @@ import java.lang.reflect.Modifier
 internal class ServiceScope {
     private val _holder: MutableMap<Class<*>, MutableMap<String, ServiceInfo>> = mutableMapOf()
 
-    /** 缺席回调 */
-    private var _absentCallback: FServiceAbsentCallback? = null
-
-    /**
-     * 设置缺席回调
-     */
-    fun setAbsentCallback(callback: FServiceAbsentCallback?) {
-        _absentCallback = callback
-    }
-
     /**
      * 获取名称为[name]的[service]对象，如果不存在则抛异常
      */
@@ -33,18 +23,9 @@ internal class ServiceScope {
         service: Class<T>,
         name: String,
     ): T? {
-        var serviceInfo = _holder[service]?.get(name)
-
-        _absentCallback?.let { callback ->
-            if (serviceInfo == null) {
-                callback.onAbsent(service, name)
-                serviceInfo = _holder[service]?.get(name)
-            }
-        }
-
-        val info = serviceInfo ?: return null
+        val serviceInfo = _holder[service]?.get(name) ?: return null
         @Suppress("UNCHECKED_CAST")
-        return info.getService() as T
+        return serviceInfo.getService() as T
     }
 
     /**

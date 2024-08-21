@@ -4,16 +4,6 @@ object FS {
     private val _scope = ServiceScope()
 
     /**
-     * 设置缺席回调
-     */
-    @JvmStatic
-    fun setAbsentCallback(callback: FServiceAbsentCallback?) {
-        synchronized(FS) {
-            _scope.setAbsentCallback(callback)
-        }
-    }
-
-    /**
      * 获取名称为[name]的[service]对象，如果不存在则抛异常
      */
     @JvmOverloads
