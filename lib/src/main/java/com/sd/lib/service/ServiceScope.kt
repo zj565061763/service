@@ -3,7 +3,7 @@ package com.sd.lib.service
 import java.lang.reflect.Modifier
 
 internal class ServiceScope {
-    private val _holder: MutableMap<Class<*>, MutableMap<String, ServiceInfo>> = mutableMapOf()
+    private val _holder: MutableMap<String, MutableMap<String, ServiceInfo>> = mutableMapOf()
 
     /**
      * 获取名称为[name]的[service]对象，如果不存在则抛异常
@@ -23,7 +23,7 @@ internal class ServiceScope {
         service: Class<T>,
         name: String,
     ): T? {
-        val serviceInfo = _holder[service]?.get(name) ?: return null
+        val serviceInfo = _holder[service.name]?.get(name) ?: return null
         @Suppress("UNCHECKED_CAST")
         return serviceInfo.getService() as T
     }
@@ -63,7 +63,7 @@ internal class ServiceScope {
         factoryMode: FactoryMode,
         factory: () -> T,
     ) {
-        val serviceHolder = _holder.getOrPut(service) { mutableMapOf() }
+        val serviceHolder = _holder.getOrPut(service.name) { mutableMapOf() }
 
         when (factoryMode) {
             FactoryMode.CancelIfExist -> {
